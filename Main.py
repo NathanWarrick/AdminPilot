@@ -32,6 +32,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.centerpay_window = None
         self.canteen_window = None
         self.qkr_canteen_window = None
+        self.student_ID_window = None
         
         # Acc Payable Windows
         
@@ -97,7 +98,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
 
         self.General_frame_button_1 = customtkinter.CTkButton(self.General_frame, text="Student Absence", command=self.Student_Absence_Button_Event)
         self.General_frame_button_1.grid(row=1, column=0, padx=20, pady=10)
-        self.General_frame_button_2 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="right")
+        self.General_frame_button_2 = customtkinter.CTkButton(self.General_frame, text="Student ID", command=self.Student_ID_Button_Event)
         self.General_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
         self.General_frame_button_3 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="top")
         self.General_frame_button_3.grid(row=3, column=0, padx=20, pady=10)
@@ -191,6 +192,12 @@ class GUI(customtkinter.CTk): # Main GUI Config
         else:
             self.absence_window.focus()
         
+    def Student_ID_Button_Event(self): 
+        if self.student_ID_window is None or not self.student_ID_window.winfo_exists():
+            self.student_ID_window = Student_ID()
+            return()
+        else:
+            self.student_ID_window.focus()
         
     #Accounts Receivable
     def Centerpay_Button_Event(self):
@@ -289,7 +296,57 @@ class Absence(customtkinter.CTkToplevel):
         print("Submit Attendance")
         functions.attendance_update(self.Absence_Name.get(), self.Absence_Date.get(), self.Absence_Time.get(), self.Absence_Returning.get(), self.Absence_Reason.get(), self.Absence_Collector.get())
         self.destroy()
+
+class Student_ID(customtkinter.CTkToplevel):
+    def __init__(self):
+        super().__init__()
+        self.geometry("375x125")
+        GUI().attributes("-topmost", False)
+        self.attributes("-topmost", True)
+        self.title("Student ID")
         
+        
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        
+        self.student_ID_frame = customtkinter.CTkFrame(self, corner_radius=0, width=400, height=300)
+        self.student_ID_frame.grid(row=0, column=0, sticky="nsew")
+        self.student_ID_frame.grid_rowconfigure(1, weight=1) # Change number of rows in the naviation frame
+        
+        self.buttons_frame = customtkinter.CTkFrame(self, corner_radius=0, width=400, height=100)
+        self.buttons_frame.grid(row=1, column=0, sticky="nsew")
+        self.buttons_frame.grid_rowconfigure(1, weight=1) # Change number of rows in the naviation frame
+        self.buttons_frame.grid_columnconfigure(3, weight=1)
+        
+        # Name Field
+        self.student_ID_frame_label = customtkinter.CTkLabel(self.student_ID_frame, text="Name *", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
+        self.student_ID_frame_label.grid(row=0, column=0, padx=10, pady=8)
+        self.Student_ID_Name = customtkinter.CTkEntry(self.student_ID_frame, placeholder_text="Name", width=280, height=40, border_width=1, corner_radius=10)
+        self.Student_ID_Name.grid(row=0, column=1, padx=10, pady=8)
+        
+        # # Time Field
+        # self.absence_frame_label = customtkinter.CTkLabel(self.absence_frame, text="Time", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
+        # self.absence_frame_label.grid(row=1, column=0, padx=10, pady=8)
+        # self.Absence_Time = customtkinter.CTkEntry(self.absence_frame, placeholder_text="Time", width=280, height=40, border_width=1, corner_radius=10)
+        # self.Absence_Time.grid(row=1, column=1, padx=10, pady=8)
+        
+        # Buttons (Seperate frame)
+        self.cancel = customtkinter.CTkButton(self.buttons_frame, command=self.Cancel_button_event, text="Cancel", fg_color="Red", hover_color="Dark Red")
+        self.cancel.grid(row=0, column=0, padx=20, pady=20, sticky="ew")        
+        self.submit = customtkinter.CTkButton(self.buttons_frame, command=self.Submit_button_event, text="Finish", fg_color="Green", hover_color="Dark Green")
+        self.submit.grid(row=0, column=3, padx=20, pady=20, sticky="ew")
+        
+        
+        # Cancel and submit buttons
+    def Cancel_button_event(self):
+        print("Cancel Student ID Submission")
+        self.destroy()
+        
+    def Submit_button_event(self):
+        print("Submit Student ID Request")
+        functions.student_ID(self.Student_ID_Name.get())
+        self.destroy()
+
 class Centerpay(customtkinter.CTkToplevel):
     def __init__(self):
         super().__init__()
@@ -473,7 +530,7 @@ class QKR_Canteen(customtkinter.CTkToplevel):
 
 # Open the GUI on Alt + Z
 # Revisit this, this is going to be expensive
-#GUI().mainloop()
+# GUI().mainloop()
 while True:
    if keyboard.is_pressed("Alt+X"):
         GUI().mainloop()
