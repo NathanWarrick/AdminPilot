@@ -1,9 +1,10 @@
-import pytesseract
-import pyautogui
-import cv2
 import os
-import win32gui
 import re
+
+import cv2
+import pyautogui
+import pytesseract
+import win32gui
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
 

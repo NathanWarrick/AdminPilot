@@ -1,11 +1,11 @@
-import win32com.client
-from datetime import date, datetime
-import pyautogui
-from time import sleep
 import os
+from datetime import date, datetime
+from time import sleep
+
+import pyautogui
+import win32com.client
 
 import FunctionsAdvanced as functionsadvanced
-
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 

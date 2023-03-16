@@ -1,12 +1,11 @@
-import tkinter
-import customtkinter
-import keyboard
-import sys
-from time import sleep
 import os
 import sys
+import tkinter
+from time import sleep
+import customtkinter
+import keyboard
 
-import Functions as functions # Import Functions.py file as functions
+import Functions as functions  # Import Functions.py file as functions
 import FunctionsAdvanced as functionsadvanced
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
