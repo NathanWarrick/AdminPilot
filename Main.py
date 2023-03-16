@@ -20,18 +20,23 @@ class GUI(customtkinter.CTk): # Main GUI Config
         
         self.title("AdminPilot")
         self.geometry("450x450")
- 
+        self.attributes("-topmost", True)
+
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
 
         # General Windows
         self.absence_window = None
+        
         # Acc Receivable windows
         self.centerpay_window = None
         self.canteen_window = None
         self.qkr_canteen_window = None
+        
         # Acc Payable Windows
+        
         # Student Records Windows
+        
         # Business Manager Windows
 
         #Navigation Frame
@@ -182,6 +187,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
     def Student_Absence_Button_Event(self): 
         if self.absence_window is None or not self.absence_window.winfo_exists():
             self.absence_window = Absence()
+            return()
         else:
             self.absence_window.focus()
         
@@ -213,6 +219,8 @@ class Absence(customtkinter.CTkToplevel):
     def __init__(self):
         super().__init__()
         self.geometry("450x400")
+        GUI().attributes("-topmost", False)
+        self.attributes("-topmost", True)
         self.title("Student Absence")
         
         
@@ -287,6 +295,8 @@ class Centerpay(customtkinter.CTkToplevel):
         super().__init__()
         self.geometry("430x290")
         self.title("Centerpay")
+        GUI().attributes("-topmost", False)
+        self.attributes("-topmost", True)
         
         
         self.grid_rowconfigure(2, weight=1)
@@ -347,12 +357,15 @@ class BPAY():
     def __init__(self):
         super().__init__()
         functions.BPAY()
+        self.destroy()
         
 class Canteen(customtkinter.CTkToplevel):
     def __init__(self):
         super().__init__()
         self.geometry("415x290")
         self.title("Canteen")
+        GUI().attributes("-topmost", False)
+        self.attributes("-topmost", True)
         
         
         self.grid_rowconfigure(2, weight=1)
@@ -413,6 +426,8 @@ class QKR_Canteen(customtkinter.CTkToplevel):
         super().__init__()
         self.geometry("415x180")
         self.title("QKR Canteen")
+        GUI().attributes("-topmost", False)
+        self.attributes("-topmost", True)
         
         
         self.grid_rowconfigure(2, weight=1)
@@ -448,7 +463,7 @@ class QKR_Canteen(customtkinter.CTkToplevel):
         
         # Cancel and submit buttons
     def Cancel_button_event(self):
-        print("Cancel Centerpay")
+        print("Cancel QKR Canteen")
         self.destroy()
         
     def Submit_button_event(self):
