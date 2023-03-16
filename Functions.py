@@ -2,15 +2,56 @@ import win32com.client
 from datetime import date, datetime
 import pyautogui
 from time import sleep
+import os
 
 import FunctionsAdvanced as functionsadvanced
 
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 def click(path):
-    img = pyautogui.locateCenterOnScreen(path)
+    img = pyautogui.locateCenterOnScreen(path, confidence=.98)
     click_x = img[0]
     click_y = img[1]
     pyautogui.leftClick(x=click_x, y=click_y)
     sleep(.2)
+    
+def print_bank_deposit(): 
+    click('Assets/General/Print.png')
+    click('Assets/General/Bank Deposit Slip.png')
+    sleep(8)
+    if str(pyautogui.locateOnScreen('Assets/General/Print Job Notification.png')) != "None":
+        print("Found")
+        while str(pyautogui.locateOnScreen('Assets/General/Print Job Notification zAdmininstration.png')) == "None":
+            print("Inorrect Account")
+            pyautogui.typewrite("z")
+        else:
+            print("Correct Account")
+            pyautogui.press("ENTER")
+            
+    else:
+        print("Can't find Papercut notification")
+        
+def print_audit_trail():
+    batch = functionsadvanced.batch_report()
+    print("Batch Number")
+    print(batch)
+    click('Assets/General/Print.png')
+    click('Assets/General/Audit Trail.png')
+    sleep(10)
+    if str(pyautogui.locateOnScreen('Assets/General/Filename_Dark.png')) != "None":
+        click('Assets/General/Filename_Dark.png')
+    else:
+        if str(pyautogui.locateOnScreen('Assets/General/Filename2.png')) != "None":
+            click('Assets/General/Filename_Light.png')
+    sleep(1)
+    pyautogui.typewrite(batch)
+    pyautogui.typewrite(" PAG")
+    pyautogui.press("Enter")
+    sleep(3)
+    #click('Assets/General/Batch Print Yes.png')
+        
+  
 
 # General
 def attendance_update(name, date_str, time_str, returning, reason, collected):
@@ -155,6 +196,11 @@ def BPAY():
         print("No BPAY!")
         pyautogui.press("Enter")
         pyautogui.hotkey('alt','f4')
+        return()
+    print_bank_deposit()
+    sleep(2)
+    print_audit_trail()
+
     
 def QKR_Canteen(total, receipt_date):
     print("QKR Canteen Code Here")
@@ -181,7 +227,6 @@ def QKR_Canteen(total, receipt_date):
     pyautogui.press("TAB")
     pyautogui.typewrite("EF")
     pyautogui.press("TAB")
-    
     
     
 def Canteen(cash_total, eft1_total, eft2_total, receipt_date):

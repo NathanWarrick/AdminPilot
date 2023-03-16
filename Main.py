@@ -3,9 +3,12 @@ import customtkinter
 import keyboard
 import sys
 from time import sleep
+import os
 
 import Functions as functions # Import Functions.py file as functions
 import FunctionsAdvanced as functionsadvanced
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -455,7 +458,6 @@ class QKR_Canteen(customtkinter.CTkToplevel):
 # Open the GUI on Alt + Z
 # Revisit this, this is going to be expensive
 #GUI().mainloop()
-# functions.click('Assets/Financial/Process and Print Receipts.png')
 while True:
    if keyboard.is_pressed("Alt+Z"):
        GUI().mainloop()

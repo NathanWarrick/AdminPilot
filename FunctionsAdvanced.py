@@ -1,7 +1,10 @@
 import pytesseract
 import pyautogui
 import cv2
+import os
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 def batch_report():
     Batch_Location = pyautogui.locateCenterOnScreen('Batch_Number.png')
