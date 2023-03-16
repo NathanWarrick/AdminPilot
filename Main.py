@@ -1,12 +1,11 @@
-import tkinter
-import customtkinter
-import keyboard
-import sys
-from time import sleep
 import os
 import sys
+import tkinter
+from time import sleep
+import customtkinter
+import keyboard
 
-import Functions as functions # Import Functions.py file as functions
+import Functions as functions  # Import Functions.py file as functions
 import FunctionsAdvanced as functionsadvanced
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -27,12 +26,13 @@ class GUI(customtkinter.CTk): # Main GUI Config
 
         # General Windows
         self.absence_window = None
+        self.student_ID_window = None
         
         # Acc Receivable windows
         self.centerpay_window = None
         self.canteen_window = None
         self.qkr_canteen_window = None
-        self.student_ID_window = None
+        
         
         # Acc Payable Windows
         
@@ -162,7 +162,6 @@ class GUI(customtkinter.CTk): # Main GUI Config
             self.Business_Manager_frame.grid(row=0, column=1, sticky="nsew")
         else:
             self.Business_Manager_frame.grid_forget()
-
 
 
     # Goto selected frame
@@ -414,7 +413,6 @@ class BPAY():
     def __init__(self):
         super().__init__()
         functions.BPAY()
-        self.destroy()
         
 class Canteen(customtkinter.CTkToplevel):
     def __init__(self):
@@ -528,7 +526,7 @@ class QKR_Canteen(customtkinter.CTkToplevel):
         functions.QKR_Canteen(self.QKR_Canteen_Total.get(), self.Receipt_Date.get())
         self.destroy()
 
-# Open the GUI on Alt + Z
+# Open the GUI on Alt + X
 # Revisit this, this is going to be expensive
 # GUI().mainloop()
 while True:
