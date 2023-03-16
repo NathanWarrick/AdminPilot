@@ -27,12 +27,13 @@ class GUI(customtkinter.CTk): # Main GUI Config
 
         # General Windows
         self.absence_window = None
+        self.student_ID_window = None
         
         # Acc Receivable windows
         self.centerpay_window = None
         self.canteen_window = None
         self.qkr_canteen_window = None
-        self.student_ID_window = None
+        
         
         # Acc Payable Windows
         
@@ -162,7 +163,6 @@ class GUI(customtkinter.CTk): # Main GUI Config
             self.Business_Manager_frame.grid(row=0, column=1, sticky="nsew")
         else:
             self.Business_Manager_frame.grid_forget()
-
 
 
     # Goto selected frame
@@ -527,7 +527,7 @@ class QKR_Canteen(customtkinter.CTkToplevel):
         functions.QKR_Canteen(self.QKR_Canteen_Total.get(), self.Receipt_Date.get())
         self.destroy()
 
-# Open the GUI on Alt + Z
+# Open the GUI on Alt + X
 # Revisit this, this is going to be expensive
 # GUI().mainloop()
 while True:
