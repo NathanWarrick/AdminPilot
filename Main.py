@@ -414,7 +414,6 @@ class BPAY():
     def __init__(self):
         super().__init__()
         functions.BPAY()
-        self.destroy()
         
 class Canteen(customtkinter.CTkToplevel):
     def __init__(self):

@@ -16,6 +16,12 @@ def click(path):
     pyautogui.leftClick(x=click_x, y=click_y)
     sleep(.2)
     
+def cases_check():
+    try:
+        functionsadvanced.focus('CASES21')
+    except:
+        print("Can't find the application")    
+        
 def print_bank_deposit(): 
     print("Print Bank Deposit")
     click('Assets/General/Print.png')
@@ -281,6 +287,7 @@ def Centerpay(student_code, receipt_date, payment_total, fee_total):
     # Leave Centerpay for last
     
 def BPAY():
+    cases_check()
     click('Assets/Financial/Families/Families.png')
     click('Assets/Financial/Families/Process BPAY Receipts.png')
     click('Assets/Financial/Families/BPAY Receipts.png')
@@ -301,7 +308,8 @@ def BPAY():
     print_audit_trail()
  
 def QKR_Canteen(total, receipt_date):
-    print("QKR Canteen Code Here")
+    print("Processing QKR Canteen")
+    cases_check()
     click('Assets/Financial/General Ledger/General Ledger.png')
     click('Assets/Financial/General Ledger/Process Receipts.png')
     click('Assets/Financial/General Ledger/General Ledger Receipt.png')
@@ -332,7 +340,7 @@ def QKR_Canteen(total, receipt_date):
       
 def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     print("Processing Canteen Payments")
-    
+    cases_check()
     # Canteen Cash
     click('Assets/Financial/General Ledger/General Ledger.png')
     click('Assets/Financial/General Ledger/Process Receipts.png')
