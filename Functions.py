@@ -65,7 +65,6 @@ def print_audit_trail():
     sleep(3)
     click('Assets/General/Batch Print Yes.png')
         
-  
 
 # General
 def attendance_update(name, date_str, time_str, returning, reason, collected):
