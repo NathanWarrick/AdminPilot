@@ -460,5 +460,5 @@ class QKR_Canteen(customtkinter.CTkToplevel):
 # Revisit this, this is going to be expensive
 #GUI().mainloop()
 while True:
-   if keyboard.is_pressed("Alt+Z"):
+   if keyboard.is_pressed("Alt+X"):
         GUI().mainloop()
