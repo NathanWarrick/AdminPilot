@@ -4,6 +4,7 @@ import keyboard
 import sys
 from time import sleep
 import os
+import sys
 
 import Functions as functions # Import Functions.py file as functions
 import FunctionsAdvanced as functionsadvanced
@@ -460,4 +461,4 @@ class QKR_Canteen(customtkinter.CTkToplevel):
 #GUI().mainloop()
 while True:
    if keyboard.is_pressed("Alt+Z"):
-       GUI().mainloop()
+        GUI().mainloop()

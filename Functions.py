@@ -17,6 +17,7 @@ def click(path):
     sleep(.2)
     
 def print_bank_deposit(): 
+    print("Print Bank Deposit")
     click('Assets/General/Print.png')
     click('Assets/General/Bank Deposit Slip.png')
     sleep(8)
@@ -32,7 +33,20 @@ def print_bank_deposit():
     else:
         print("Can't find Papercut notification")
         
+def print_bank_deposit_fake(): 
+    print("Fake Bank Deposit")
+    click('Assets/General/Print.png')
+    click('Assets/General/Bank Deposit Slip.png')
+    sleep(8)
+    if str(pyautogui.locateOnScreen('Assets/General/Print Job Notification.png')) != "None":
+        print("Found")
+        pyautogui.hotkey('alt','f4')
+            
+    else:
+        print("Can't find Papercut notification")
+        
 def print_audit_trail():
+    print("Print Audit Trail")
     batch = functionsadvanced.batch_report()
     print("Batch Number")
     print(batch)
@@ -46,10 +60,10 @@ def print_audit_trail():
             click('Assets/General/Filename_Light.png')
     sleep(1)
     pyautogui.typewrite(batch)
-    pyautogui.typewrite(" PAG")
+    pyautogui.typewrite(" by AdminPilot")
     pyautogui.press("Enter")
     sleep(3)
-    #click('Assets/General/Batch Print Yes.png')
+    click('Assets/General/Batch Print Yes.png')
         
   
 
@@ -200,8 +214,7 @@ def BPAY():
     print_bank_deposit()
     sleep(2)
     print_audit_trail()
-
-    
+ 
 def QKR_Canteen(total, receipt_date):
     print("QKR Canteen Code Here")
     click('Assets/Financial/General Ledger/General Ledger.png')
@@ -227,7 +240,10 @@ def QKR_Canteen(total, receipt_date):
     pyautogui.press("TAB")
     pyautogui.typewrite("EF")
     pyautogui.press("TAB")
-    
-    
+    click('Assets/General/Save.png')
+    print_bank_deposit_fake()
+    sleep(2)
+    print_audit_trail()
+      
 def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     print("Canteen Code Here")
