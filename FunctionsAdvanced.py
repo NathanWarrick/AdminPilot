@@ -52,7 +52,6 @@ def batch_report():
     config = '--oem 3 --psm 6' 
     batch = pytesseract.image_to_string(img, config = config, lang='eng')
     batch = batch[:5]
-    os.remove('Assets/Temp/batch.png')
     return batch
 
 def focus(focus_on):

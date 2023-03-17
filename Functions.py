@@ -14,7 +14,7 @@ def click(path):
     click_x = img[0]
     click_y = img[1]
     pyautogui.leftClick(x=click_x, y=click_y)
-    sleep(.2)
+    sleep(.3)
     
 def cases_check():
     try:
@@ -27,6 +27,7 @@ def print_bank_deposit():
     click('Assets/General/Print.png')
     click('Assets/General/Bank Deposit Slip.png')
     sleep(8)
+    functionsadvanced.focus("Print Job Notification")
     if str(pyautogui.locateOnScreen('Assets/General/Print Job Notification.png')) != "None":
         print("Found")
         while str(pyautogui.locateOnScreen('Assets/General/Print Job Notification zAdmininstration.png')) == "None":
@@ -38,6 +39,7 @@ def print_bank_deposit():
             
     else:
         print("Can't find Papercut notification")
+    sleep(2)
         
 def print_bank_deposit_fake(): 
     print("Fake Bank Deposit")
@@ -51,6 +53,12 @@ def print_bank_deposit_fake():
     else:
         print("Can't find Papercut notification")
         
+def print_online_print(): 
+    print("Online Print")
+    click('Assets/General/Print.png')
+    click('Assets/General/Online Print.png')
+    sleep(8)
+    
 def print_audit_trail():
     print("Print Audit Trail")
     batch = functionsadvanced.batch_report()
@@ -70,6 +78,8 @@ def print_audit_trail():
     pyautogui.press("Enter")
     sleep(3)
     click('Assets/General/Batch Print Yes.png')
+    sleep(2)
+    pyautogui.hotkey('alt','f4')
         
 
 # General
@@ -223,7 +233,7 @@ def student_ID(name):
     ol = win32com.client.Dispatch('Outlook.Application')
     mailItem = ol.CreateItem(0)
     mailItem.BodyFormat = 1
-    mailItem.To = '' # enter IT email here
+    mailItem.To = '8818-helpdesk@schools.vic.edu.au' # enter IT email here
     mailItem.Subject = "Student ID Request"
     mailItem.htmlBody = ('''
         <p>
@@ -253,7 +263,7 @@ def student_ID(name):
             text-shadow: 0px 0px;
             text-align: left;
             font-family: sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             color: black;
             }
         .bolded {
@@ -261,7 +271,7 @@ def student_ID(name):
             text-shadow: 0px 0px;
             text-align: left;
             font-family: sans-serif;
-            font-size: 22px;
+            font-size: 20px;
             color: black;
             }
         <style>
@@ -276,8 +286,8 @@ def student_ID(name):
         </style>
         ''')
     
-    mailItem.Display() #email is displayed prior to sending
-    # mailItem.Send() #email is sent
+    # mailItem.Display() #email is displayed prior to sending
+    mailItem.Send() #email is sent
 
 
 # Accounts Receivable
@@ -296,7 +306,7 @@ def BPAY():
     pyautogui.press("Enter")
     sleep(2)
     pyautogui.press("Enter")
-    sleep(1)
+    sleep(3)
     # If there are no records close the BPAY menu
     if str(pyautogui.locateOnScreen('Assets/Financial/Errors/There are no records to generate the batch with.png')) != "None":
         print("No BPAY!")
@@ -316,7 +326,7 @@ def QKR_Canteen(total, receipt_date):
     pyautogui.press("Enter")
     sleep(2)
     pyautogui.press("Enter")
-    sleep(2)
+    sleep(4)
     pyautogui.press("Tab")
     pyautogui.typewrite("CANTEEN")
     pyautogui.press("TAB")
@@ -348,7 +358,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     pyautogui.press("Enter")
     sleep(2)
     pyautogui.press("Enter")
-    sleep(2)
+    sleep(4)
     pyautogui.press("Tab")
     pyautogui.typewrite("CANTEEN")
     pyautogui.press("TAB")
@@ -367,8 +377,8 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     pyautogui.typewrite("CA")
     pyautogui.press("TAB")
     click('Assets/General/Save.png')
+    print_online_print()
     print_bank_deposit()
-    sleep(2)
     print_audit_trail()
     
     sleep(5)
@@ -380,7 +390,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     pyautogui.press("Enter")
     sleep(2)
     pyautogui.press("Enter")
-    sleep(2)
+    sleep(4)
     pyautogui.press("Tab")
     pyautogui.typewrite("CANTEEN")
     pyautogui.press("TAB")
@@ -399,8 +409,8 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     pyautogui.typewrite("EF")
     pyautogui.press("TAB")
     click('Assets/General/Save.png')
+    print_online_print()
     print_bank_deposit()
-    sleep(2)
     print_audit_trail()
     
     sleep(5)
@@ -412,7 +422,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     pyautogui.press("Enter")
     sleep(2)
     pyautogui.press("Enter")
-    sleep(2)
+    sleep(4)
     pyautogui.press("Tab")
     pyautogui.typewrite("CANTEEN")
     pyautogui.press("TAB")
@@ -431,8 +441,8 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     pyautogui.typewrite("EF")
     pyautogui.press("TAB")
     click('Assets/General/Save.png')
+    print_online_print()
     print_bank_deposit()
-    sleep(2)
     print_audit_trail()
     
 # Accounts Payable
@@ -440,3 +450,4 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
 # Student Records
 
 # Business Manager
+
