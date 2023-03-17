@@ -1,0 +1,5 @@
+tk
+customtkinter
+pyautogui
+pywin32
+pytesseract
