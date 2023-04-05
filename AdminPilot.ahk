@@ -3,5 +3,5 @@
 
 !x::
 {
-run "U:\PUBLIC\Finance\Nathan\AdminPilot\AdminPilot\Main.pyw"
+run "U:\PUBLIC\Finance\AdminPilot\adminpilot\Main.pyw"
 }

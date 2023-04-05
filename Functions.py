@@ -2,10 +2,12 @@ import os
 from datetime import date, datetime
 from time import sleep
 
+
 import pyautogui
 import win32com.client
 
 import FunctionsAdvanced as functionsadvanced
+import FunctionsGUI as guis
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,7 +29,6 @@ def print_bank_deposit():
     click('Assets/General/Print.png')
     click('Assets/General/Bank Deposit Slip.png')
     sleep(8)
-    functionsadvanced.focus("Print Job Notification")
     if str(pyautogui.locateOnScreen('Assets/General/Print Job Notification.png')) != "None":
         print("Found")
         while str(pyautogui.locateOnScreen('Assets/General/Print Job Notification zAdmininstration.png')) == "None":
@@ -39,7 +40,7 @@ def print_bank_deposit():
             
     else:
         print("Can't find Papercut notification")
-    sleep(2)
+    sleep(3)
         
 def print_bank_deposit_fake(): 
     print("Fake Bank Deposit")
@@ -57,7 +58,7 @@ def print_online_print():
     print("Online Print")
     click('Assets/General/Print.png')
     click('Assets/General/Online Print.png')
-    sleep(8)
+    sleep(10)
     
 def print_audit_trail():
     print("Print Audit Trail")
@@ -302,11 +303,13 @@ def BPAY():
     click('Assets/Financial/Families/Process BPAY Receipts.png')
     click('Assets/Financial/Families/BPAY Receipts.png')
     pyautogui.press("Enter")
-    sleep(2)
+    sleep(4)
     pyautogui.press("Enter")
     sleep(2)
     pyautogui.press("Enter")
+    pyautogui.moveTo(10,10)
     sleep(3)
+    
     # If there are no records close the BPAY menu
     if str(pyautogui.locateOnScreen('Assets/Financial/Errors/There are no records to generate the batch with.png')) != "None":
         print("No BPAY!")
@@ -314,7 +317,7 @@ def BPAY():
         pyautogui.hotkey('alt','f4')
         return()
     print_bank_deposit()
-    sleep(2)
+    sleep(4)
     print_audit_trail()
  
 def QKR_Canteen(total, receipt_date):
@@ -324,9 +327,10 @@ def QKR_Canteen(total, receipt_date):
     click('Assets/Financial/General Ledger/Process Receipts.png')
     click('Assets/Financial/General Ledger/General Ledger Receipt.png')
     pyautogui.press("Enter")
-    sleep(2)
-    pyautogui.press("Enter")
     sleep(4)
+    pyautogui.press("Enter")
+    pyautogui.moveTo(10,10)
+    sleep(4) 
     pyautogui.press("Tab")
     pyautogui.typewrite("CANTEEN")
     pyautogui.press("TAB")
@@ -345,104 +349,142 @@ def QKR_Canteen(total, receipt_date):
     pyautogui.press("TAB")
     click('Assets/General/Save.png')
     print_bank_deposit_fake()
-    sleep(2)
+    sleep(3)
     print_audit_trail()
       
 def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     print("Processing Canteen Payments")
     cases_check()
-    # Canteen Cash
-    click('Assets/Financial/General Ledger/General Ledger.png')
-    click('Assets/Financial/General Ledger/Process Receipts.png')
-    click('Assets/Financial/General Ledger/General Ledger Receipt.png')
-    pyautogui.press("Enter")
-    sleep(2)
-    pyautogui.press("Enter")
-    sleep(4)
-    pyautogui.press("Tab")
-    pyautogui.typewrite("CANTEEN")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.typewrite(cash_total)
-    pyautogui.press("TAB")
-    pyautogui.typewrite('Canteen ')
-    pyautogui.typewrite(receipt_date)
-    pyautogui.typewrite(' CSH ')
-    pyautogui.press("TAB")
-    pyautogui.typewrite("CA")
-    pyautogui.press("TAB")
-    click('Assets/General/Save.png')
-    print_online_print()
-    print_bank_deposit()
-    print_audit_trail()
     
-    sleep(5)
+    if receipt_date != "":
+        receipt_date = date.today().strftime("%d/%m/%Y")
+        
+    
+    # Canteen Cash
+    if cash_total != "":
+        click('Assets/Financial/General Ledger/General Ledger.png')
+        click('Assets/Financial/General Ledger/Process Receipts.png')
+        click('Assets/Financial/General Ledger/General Ledger Receipt.png')
+        pyautogui.press("Enter")
+        sleep(4)
+        pyautogui.press("Enter")
+        pyautogui.moveTo(10,10)
+        sleep(3)
+        pyautogui.press("Tab")
+        pyautogui.typewrite("CANTEEN")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.typewrite(cash_total)
+        pyautogui.press("TAB")
+        pyautogui.typewrite('Canteen ')
+        pyautogui.typewrite(receipt_date)
+        pyautogui.typewrite(' CSH ')
+        pyautogui.press("TAB")
+        pyautogui.typewrite("CA")
+        pyautogui.press("TAB")
+        cash_gl = functionsadvanced.reference_report()
+        click('Assets/General/Save.png')
+        print_online_print()
+        print_bank_deposit()
+        print_audit_trail()
+        
+        sleep(5)
     
     # Canteen Eft 1
-    click('Assets/Financial/General Ledger/General Ledger.png')
-    click('Assets/Financial/General Ledger/Process Receipts.png')
-    click('Assets/Financial/General Ledger/General Ledger Receipt.png')
-    pyautogui.press("Enter")
-    sleep(2)
-    pyautogui.press("Enter")
-    sleep(4)
-    pyautogui.press("Tab")
-    pyautogui.typewrite("CANTEEN")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.typewrite(eft1_total)
-    pyautogui.press("TAB")
-    pyautogui.typewrite('Canteen ')
-    pyautogui.typewrite(receipt_date)
-    pyautogui.typewrite(' EFT1 ')
-    pyautogui.press("TAB")
-    pyautogui.typewrite("EF")
-    pyautogui.press("TAB")
-    click('Assets/General/Save.png')
-    print_online_print()
-    print_bank_deposit()
-    print_audit_trail()
-    
-    sleep(5)
+    if eft1_total != "":
+        click('Assets/Financial/General Ledger/General Ledger.png')
+        click('Assets/Financial/General Ledger/Process Receipts.png')
+        click('Assets/Financial/General Ledger/General Ledger Receipt.png')
+        pyautogui.press("Enter")
+        sleep(4)
+        pyautogui.press("Enter")
+        pyautogui.moveTo(10,10)
+        sleep(3)
+        pyautogui.press("Tab")
+        pyautogui.typewrite("CANTEEN")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.typewrite(eft1_total)
+        pyautogui.press("TAB")
+        pyautogui.typewrite('Canteen ')
+        pyautogui.typewrite(receipt_date)
+        pyautogui.typewrite(' EFT1 ')
+        pyautogui.press("TAB")
+        pyautogui.typewrite("EF")
+        pyautogui.press("TAB")
+        eft1_gl = functionsadvanced.reference_report()
+        click('Assets/General/Save.png')
+        print_online_print()
+        print_bank_deposit()
+        print_audit_trail()
+        
+        sleep(5)
     
     # Canteen Eft 2
-    click('Assets/Financial/General Ledger/General Ledger.png')
-    click('Assets/Financial/General Ledger/Process Receipts.png')
-    click('Assets/Financial/General Ledger/General Ledger Receipt.png')
+    if eft2_total != "":
+        click('Assets/Financial/General Ledger/General Ledger.png')
+        click('Assets/Financial/General Ledger/Process Receipts.png')
+        click('Assets/Financial/General Ledger/General Ledger Receipt.png')
+        pyautogui.press("Enter")
+        sleep(4)
+        pyautogui.press("Enter")
+        pyautogui.moveTo(10,10)
+        sleep(3)
+        pyautogui.press("Tab")
+        pyautogui.typewrite("CANTEEN")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.typewrite(eft2_total)
+        pyautogui.press("TAB")
+        pyautogui.typewrite('Canteen ')
+        pyautogui.typewrite(receipt_date)
+        pyautogui.typewrite(' EFT2 ')
+        pyautogui.press("TAB")
+        pyautogui.typewrite("EF")
+        pyautogui.press("TAB")
+        eft2_gl = functionsadvanced.reference_report()
+        click('Assets/General/Save.png')
+        print_online_print()
+        print_bank_deposit()
+        print_audit_trail()
+        
+    guis.Canteen_Overview(cash_total, cash_gl, eft1_total, eft1_gl, eft2_total, eft2_gl, receipt_date).mainloop()
+    
+    
+def CSEF():
+    print("CSEF Code goes here")
+    cases_check()
+    click('Assets/Financial/Families/Families.png')
+    click('Assets/Financial/Families/Process CSEF Receipts.png')
+    click('Assets/Financial/Families/CSEF Receipts.png')
     pyautogui.press("Enter")
-    sleep(2)
+    sleep(3)
     pyautogui.press("Enter")
-    sleep(4)
-    pyautogui.press("Tab")
-    pyautogui.typewrite("CANTEEN")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.press("TAB")
-    pyautogui.typewrite(eft2_total)
-    pyautogui.press("TAB")
-    pyautogui.typewrite('Canteen ')
-    pyautogui.typewrite(receipt_date)
-    pyautogui.typewrite(' EFT2 ')
-    pyautogui.press("TAB")
-    pyautogui.typewrite("EF")
-    pyautogui.press("TAB")
-    click('Assets/General/Save.png')
-    print_online_print()
+    pyautogui.moveTo(10,10)
+    sleep(3)
+    
+    if str(pyautogui.locateOnScreen('Assets/Financial/Errors/There are no records to generate the batch with.png')) != "None":
+        print("No BPAY!")
+        pyautogui.press("Enter")
+        pyautogui.hotkey('alt','f4')
+        return()
     print_bank_deposit()
+    sleep(4)
     print_audit_trail()
     
 # Accounts Payable
@@ -451,3 +493,4 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
 
 # Business Manager
 
+# Canteen_Overview().mainloop()

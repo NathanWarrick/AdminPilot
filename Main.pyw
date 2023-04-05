@@ -6,6 +6,8 @@ import customtkinter
 import keyboard
 
 import Functions as functions  # Import Functions.py file as functions
+import FunctionsGUI as guis
+
 import FunctionsAdvanced as functionsadvanced
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -121,6 +123,8 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.Accounts_Receivable_button_3.grid(row=3, column=0, padx=20, pady=10)
         self.Accounts_Receivable_button_4 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="Canteen", command=self.Canteen_Button_Event)
         self.Accounts_Receivable_button_4.grid(row=4, column=0, padx=20, pady=10)
+        self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="CSEF", command=self.CSEF_Button_Event)
+        self.Accounts_Receivable_button_5.grid(row=5, column=0, padx=20, pady=10)
 
         # Create Acc Pay frame
         self.Accounts_Payable_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
@@ -221,6 +225,9 @@ class GUI(customtkinter.CTk): # Main GUI Config
             self.canteen_window = Canteen()
         else:
             self.canteen_window.focus()
+            
+    def CSEF_Button_Event(self):
+        self.csef_window = CSEF()
 
 class Absence(customtkinter.CTkToplevel):
     def __init__(self):
@@ -465,7 +472,7 @@ class Canteen(customtkinter.CTkToplevel):
         
         # Cancel and submit buttons
     def Cancel_button_event(self):
-        print("Cancel Centerpay")
+        print("Cancel Canteen")
         self.destroy()
         
     def Submit_button_event(self):
@@ -521,6 +528,11 @@ class QKR_Canteen(customtkinter.CTkToplevel):
         print("Submit Canteen")
         functions.QKR_Canteen(self.QKR_Canteen_Total.get(), self.Receipt_Date.get())
         self.destroy()
+
+class CSEF():
+    def __init__(self):
+        super().__init__()
+        functions.CSEF()
 
 # Open the GUI on Alt + X
 # Revisit this, this is going to be expensive
