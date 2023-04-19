@@ -1,5 +1,4 @@
 import customtkinter
-import tkinter
 
 
 class Canteen_Overview(customtkinter.CTk): # This isnt finished. Still needs lots of work and possibly needs to be moved

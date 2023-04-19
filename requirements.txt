@@ -1,7 +1,6 @@
-tk
 customtkinter
+cv2
 pyautogui
-pywin32
 pytesseract
+win32gui
 selenium
-shutil
