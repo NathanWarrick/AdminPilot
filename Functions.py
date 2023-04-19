@@ -464,8 +464,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         print_audit_trail()
         
     guis.Canteen_Overview(cash_total, cash_gl, eft1_total, eft1_gl, eft2_total, eft2_gl, receipt_date).mainloop()
-    
-    
+       
 def CSEF():
     print("CSEF Code goes here")
     cases_check()
@@ -486,7 +485,7 @@ def CSEF():
     print_bank_deposit()
     sleep(4)
     print_audit_trail()
-    
+        
 # Accounts Payable
 
 # Student Records

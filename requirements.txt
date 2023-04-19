@@ -3,3 +3,5 @@ customtkinter
 pyautogui
 pywin32
 pytesseract
+selenium
+shutil
