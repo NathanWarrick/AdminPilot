@@ -69,7 +69,11 @@ def main():
     try:
         shutil.rmtree('Downloads\Waiting')
     except:
-        os.mkdir('Downloads\Waiting')
+        try:
+            os.mkdir('Downloads\Waiting')
+        except:
+            os.mkdir('Downloads')
+            os.mkdir('Downloads\Waiting')
     browser = Browser('drivers/chromedriver')
 
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/index.html')
