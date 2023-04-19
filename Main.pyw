@@ -7,10 +7,10 @@ import keyboard
 
 import Functions as functions  # Import Functions.py file as functions
 import FunctionsGUI as guis
+from QKR_bot import qkr_bot
 
 import FunctionsAdvanced as functionsadvanced
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -18,6 +18,7 @@ customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-bl
 class GUI(customtkinter.CTk): # Main GUI Config
     def __init__(self):
         super().__init__()
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
         
         self.title("AdminPilot")
         self.geometry("450x450")
@@ -125,6 +126,8 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.Accounts_Receivable_button_4.grid(row=4, column=0, padx=20, pady=10)
         self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="CSEF", command=self.CSEF_Button_Event)
         self.Accounts_Receivable_button_5.grid(row=5, column=0, padx=20, pady=10)
+        self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="QKR Update", command=self.QKR_Update_Button_Event)
+        self.Accounts_Receivable_button_5.grid(row=6, column=0, padx=20, pady=10)
 
         # Create Acc Pay frame
         self.Accounts_Payable_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
@@ -228,6 +231,9 @@ class GUI(customtkinter.CTk): # Main GUI Config
             
     def CSEF_Button_Event(self):
         self.csef_window = CSEF()
+        
+    def QKR_Update_Button_Event(self):
+        self.qkr_update_window = QKR_Update()
 
 class Absence(customtkinter.CTkToplevel):
     def __init__(self):
@@ -533,7 +539,12 @@ class CSEF():
     def __init__(self):
         super().__init__()
         functions.CSEF()
-
+        
+class QKR_Update():
+    def __init__(self):
+        super().__init__()
+        qkr_bot.main()
+        
 # Open the GUI on Alt + X
 # Revisit this, this is going to be expensive
 GUI().mainloop()
