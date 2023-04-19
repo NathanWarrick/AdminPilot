@@ -1,5 +1,5 @@
 customtkinter
-cv2
+opencv-python
 pyautogui
 pytesseract
 win32gui
