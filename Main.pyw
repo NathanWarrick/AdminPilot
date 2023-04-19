@@ -1,9 +1,7 @@
 import os
-import sys
-import tkinter
 from time import sleep
 import customtkinter
-import keyboard
+
 
 import Functions as functions  # Import Functions.py file as functions
 import FunctionsGUI as guis
