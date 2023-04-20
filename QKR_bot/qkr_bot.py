@@ -74,14 +74,17 @@ def main():
         except:
             os.mkdir('Downloads')
             os.mkdir('Downloads\Waiting')
+            
+            
     browser = Browser('drivers/chromedriver')
 
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/index.html')
     time.sleep(2)
     browser.login_qkr(secret.username, secret.password)
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/app/storeFront#/forms')
-    time.sleep(4)
-
+    time.sleep(2)
+    pyautogui.scroll(-330)
+    time.sleep(2)
 
 
     for view_button_pos in pyautogui.locateAllOnScreen('Assets/view_list.png'): # Create an array of values for the Y location of the QKR view list buttons so i can click them later with pyautogui
@@ -102,6 +105,3 @@ def main():
         time.sleep(3)
         i = i + 1
         Functions.rename_download()
-
-
-
