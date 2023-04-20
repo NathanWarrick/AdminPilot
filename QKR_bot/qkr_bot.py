@@ -98,7 +98,7 @@ def main():
 
     
     i = 0
-    for x in view_button_array:
+    for x in view_button_array: # All code needs to go in this loop
         pyautogui.moveTo(1266, view_button_array[i])
         pyautogui.click()
         time.sleep(3)
