@@ -10,7 +10,7 @@ from QKR_bot import secret
 import os
 import pyautogui
 import shutil
-import pandas
+import pandas as pd
 from xls2xlsx import XLS2XLSX
 
 # --------------------------SETUP-------------------------- #
@@ -60,8 +60,11 @@ class Functions:
         files = os.listdir('Downloads\Waiting')
         paths = [os.path.join('Downloads\Waiting', basename) for basename in files]
         name = max(paths, key=os.path.getctime)
+        
         name_new = name[17:name.find('-')] # Trim string
         name_new = 'Downloads' + name_new + '.xls'
+        
+        
         os.replace(name, name_new)
         return name_new 
     
@@ -99,6 +102,9 @@ def main():
     
     i = 0
     for x in view_button_array: # All code needs to go in this loop
+        if i != 0:
+            pyautogui.scroll(-330)
+        time.sleep(.5)
         pyautogui.moveTo(1266, view_button_array[i])
         pyautogui.click()
         time.sleep(3)
@@ -110,4 +116,63 @@ def main():
         pyautogui.hotkey('ctrl', 'home')
         time.sleep(3)
         i = i + 1
-        Functions.rename_download()
+                
+        
+        files = os.listdir('Downloads\Waiting')
+        paths = [os.path.join('Downloads\Waiting', basename) for basename in files]
+        name = max(paths, key=os.path.getctime)
+
+        # Rename the file 
+        name_trimmed = name[17:name.find('-')] # Trim string
+        name_new = 'Downloads' + name_trimmed + '.xls'
+        xlsxfile = 'Downloads' + name_trimmed + '.xlsx'
+
+
+        # Copy/Move the file to the downloads directory, only uncomment one of these
+        shutil.copyfile(name, name_new)
+        #os.replace(name, name_new)
+
+        # Convert the file to xlsx and remove the xls version
+        XLS2XLSX(name_new).to_xlsx(xlsxfile)
+        os.remove(name_new)
+
+
+        qkr_df = pd.read_excel(xlsxfile) 
+
+        # Split students name into first and last. Added an exception for local excursions that have a different format
+        try:
+            qkr_df[['First Name','Last Name']] = qkr_df['Students Full Name:'].loc[qkr_df['Students Full Name:'].str.split().str.len() == 2].str.split(expand=True) # Split students name into first and last
+            qkr_df['First Name'].fillna(qkr_df['Students Full Name:'],inplace=True)
+        except: # Change this later to explicitly work for local excursion forms
+            qkr_df[['First Name','Last Name']] = qkr_df['Student Name:'].loc[qkr_df['Student Name:'].str.split().str.len() == 2].str.split(expand=True) # Split students name into first and last
+            qkr_df['First Name'].fillna(qkr_df['Student Name:'],inplace=True)
+
+        try:
+            qkr_df = qkr_df[["First Name", "Last Name", "Parent/Carer's Full Name:" ,"Parent/Carer's business hours number:"]]
+            qkr_df = qkr_df.rename(columns={"Parent/Carer's Full Name:": "Guardian's Name",
+                                    "Parent/Carer's business hours number:": "Contact Number"})
+        except:
+            qkr_df = qkr_df[["First Name", "Last Name", "Parent/Carer's Name:" ,"Phone Number 1:", "Name:", "Relationship to student:", "Phone Number:"]]
+            qkr_df = qkr_df.rename(columns={"Parent/Carer's Name:": "Guardian's Name",
+                                    "Parent/Carer's business hours number:": "Contact Number",
+                                    "Name:": "Emergency Contact Name",
+                                    "Relationship to student:": "Relationship",
+                                    "Phone Number:": "Contact Number"})
+
+
+
+        try:
+
+            masterfile = 'Excursions' + name_trimmed + '.xlsx'
+            master_df = pd.read_excel(masterfile)
+
+            frames = [master_df, qkr_df]
+            result = pd.concat(frames)
+            result = result.drop_duplicates()
+            result.to_excel('Excursions' + name_trimmed + '.xlsx', index=False)  
+            
+            
+        except:
+            qkr_df.to_excel('Excursions' + name_trimmed + '.xlsx', index=False)  
+
+        os.remove(xlsxfile) 
