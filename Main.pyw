@@ -102,9 +102,9 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.General_frame_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.General_frame_button_2 = customtkinter.CTkButton(self.General_frame, text="Student ID", command=self.Student_ID_Button_Event)
         self.General_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
-        self.General_frame_button_3 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="top")
+        self.General_frame_button_3 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="top", fg_color='dark red', hover_color='dark red')
         self.General_frame_button_3.grid(row=3, column=0, padx=20, pady=10)
-        self.General_frame_button_4 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="bottom")
+        self.General_frame_button_4 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="bottom", fg_color='dark red', hover_color='dark red')
         self.General_frame_button_4.grid(row=4, column=0, padx=20, pady=10)
 
         # Create Acc Rec frame
@@ -114,7 +114,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.Accounts_Receivable_large_image_label = customtkinter.CTkLabel(self.Accounts_Receivable_frame, text="")
         self.Accounts_Receivable_large_image_label.grid(row=0, column=0, padx=20, pady=10)
         
-        self.Accounts_Receivable_button_1 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="Centerpay", command=self.Centerpay_Button_Event)
+        self.Accounts_Receivable_button_1 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="Centerpay", command=self.Centerpay_Button_Event, fg_color='dark red', hover_color='dark red')
         self.Accounts_Receivable_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.Accounts_Receivable_button_2 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="BPAY", command=self.BPAY_Button_Event)
         self.Accounts_Receivable_button_2.grid(row=2, column=0, padx=20, pady=10)
@@ -122,9 +122,9 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.Accounts_Receivable_button_3.grid(row=3, column=0, padx=20, pady=10)
         self.Accounts_Receivable_button_4 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="Canteen", command=self.Canteen_Button_Event)
         self.Accounts_Receivable_button_4.grid(row=4, column=0, padx=20, pady=10)
-        self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="CSEF", command=self.CSEF_Button_Event)
+        self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="CSEF Receipt", command=self.CSEF_Button_Event)
         self.Accounts_Receivable_button_5.grid(row=5, column=0, padx=20, pady=10)
-        self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="QKR Update", command=self.QKR_Update_Button_Event)
+        self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="QKR Update", command=self.QKR_Update_Button_Event, fg_color='dark red', hover_color='dark red')
         self.Accounts_Receivable_button_5.grid(row=6, column=0, padx=20, pady=10)
 
         # Create Acc Pay frame

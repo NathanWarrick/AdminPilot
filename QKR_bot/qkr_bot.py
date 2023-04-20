@@ -10,6 +10,8 @@ from QKR_bot import secret
 import os
 import pyautogui
 import shutil
+import pandas
+from xls2xlsx import XLS2XLSX
 
 # --------------------------SETUP-------------------------- #
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -62,6 +64,10 @@ class Functions:
         name_new = 'Downloads' + name_new + '.xls'
         os.replace(name, name_new)
         return name_new 
+    
+    def process_download():
+        print('insert code here')
+
 
 
 def main():
@@ -86,7 +92,7 @@ def main():
     pyautogui.scroll(-330)
     time.sleep(2)
 
-
+    # Append coordinate to array for every location of a QKR view list button to the view_button_array array
     for view_button_pos in pyautogui.locateAllOnScreen('Assets/view_list.png'): # Create an array of values for the Y location of the QKR view list buttons so i can click them later with pyautogui
         view_button_array.append(view_button_pos[1])
 

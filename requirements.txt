@@ -5,3 +5,5 @@ pytesseract
 win32gui
 selenium
 shutil
+pandas
+xls2xlsx
