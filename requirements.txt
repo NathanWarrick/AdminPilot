@@ -2,6 +2,8 @@ customtkinter
 opencv-python
 pyautogui
 pytesseract
-win32gui
+pywin32
 selenium
-shutil
+pytest-shutil
+pandas
+xls2xlsx
