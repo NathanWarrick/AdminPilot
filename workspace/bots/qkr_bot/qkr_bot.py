@@ -4,18 +4,20 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 
-#Normal Imports
-import time
-from QKR_bot import secret
 import os
 import pyautogui
 import shutil
 import pandas as pd
 from xls2xlsx import XLS2XLSX
+import time
+
+from workspace.bots.qkr_bot import secret
+
 
 # --------------------------SETUP-------------------------- #
 dir_path = os.path.dirname(os.path.realpath(__file__))
-downloads = dir_path + '\Downloads\Waiting' # Create downloads path for files to be downloaded using selenium
+downloads = dir_path + r"\downloads" # Create downloads path for files to be downloaded using selenium
+
 
 view_button_array = []
 
@@ -54,37 +56,8 @@ class Browser: # Selenium Browser Configuration
         self.add_input(by=By.NAME, value='password', text=password)
         self.click_button(by=By.CLASS_NAME, value='btn-success')
 
-# Main Function
-class Functions:
-    def rename_download():
-        files = os.listdir('Downloads\Waiting')
-        paths = [os.path.join('Downloads\Waiting', basename) for basename in files]
-        name = max(paths, key=os.path.getctime)
-        
-        name_new = name[17:name.find('-')] # Trim string
-        name_new = 'Downloads' + name_new + '.xls'
-        
-        
-        os.replace(name, name_new)
-        return name_new 
-    
-    def process_download():
-        print('insert code here')
 
-
-
-def main():
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    try:
-        shutil.rmtree('Downloads\Waiting')
-    except:
-        try:
-            os.mkdir('Downloads\Waiting')
-        except:
-            os.mkdir('Downloads')
-            os.mkdir('Downloads\Waiting')
-            
-            
+def main():          
     browser = Browser('drivers/chromedriver')
 
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/index.html')
@@ -96,7 +69,8 @@ def main():
     time.sleep(2)
 
     # Append coordinate to array for every location of a QKR view list button to the view_button_array array
-    for view_button_pos in pyautogui.locateAllOnScreen('Assets/view_list.png'): # Create an array of values for the Y location of the QKR view list buttons so i can click them later with pyautogui
+
+    for view_button_pos in pyautogui.locateAllOnScreen(r"workspace\bots\qkr_bot\assets\view_list.png"): # Create an array of values for the Y location of the QKR view list buttons so i can click them later with pyautogui
         view_button_array.append(view_button_pos[1])
 
     
@@ -118,40 +92,32 @@ def main():
         i = i + 1
                 
         
-        files = os.listdir('Downloads\Waiting')
-        paths = [os.path.join('Downloads\Waiting', basename) for basename in files]
+        # Determine the newest file added to the directory
+        files = os.listdir(r"workspace\bots\qkr_bot\Downloads")
+        paths = [os.path.join(r"workspace\bots\qkr_bot\Downloads", basename) for basename in files]
         name = max(paths, key=os.path.getctime)
 
+
         # Rename the file 
-        name_trimmed = name[17:name.find('-')] # Trim string
-        name_new = 'Downloads' + name_trimmed + '.xls'
-        xlsxfile = 'Downloads' + name_trimmed + '.xlsx'
+        excursionname = name[32:name.find('-')] # Trim string to just the name of the form
+        #name_new = r"workspace\bots\qkr_bot\Downloads" + excursionname + '.xls'
+        xlsxfile = r"workspace\bots\qkr_bot\Downloads" + excursionname + '.xlsx'
 
 
-        # Copy/Move the file to the downloads directory, only uncomment one of these
-        shutil.copyfile(name, name_new)
+        # Copy/Move the file to the downloads directory
         #os.replace(name, name_new)
 
         # Convert the file to xlsx and remove the xls version
-        XLS2XLSX(name_new).to_xlsx(xlsxfile)
-        os.remove(name_new)
-
-
+        XLS2XLSX(name).to_xlsx(xlsxfile)
+        os.remove(name)
         qkr_df = pd.read_excel(xlsxfile) 
-
+        
+        
         # Split students name into first and last. Added an exception for local excursions that have a different format
-        try:
-            qkr_df[['First Name','Last Name']] = qkr_df['Students Full Name:'].loc[qkr_df['Students Full Name:'].str.split().str.len() == 2].str.split(expand=True) # Split students name into first and last
-            qkr_df['First Name'].fillna(qkr_df['Students Full Name:'],inplace=True)
-        except: # Change this later to explicitly work for local excursion forms
+        if excursionname == '\LocalExcursionForm':
+            print("Local Excursion Form Detected")
             qkr_df[['First Name','Last Name']] = qkr_df['Student Name:'].loc[qkr_df['Student Name:'].str.split().str.len() == 2].str.split(expand=True) # Split students name into first and last
             qkr_df['First Name'].fillna(qkr_df['Student Name:'],inplace=True)
-
-        try:
-            qkr_df = qkr_df[["First Name", "Last Name", "Parent/Carer's Full Name:" ,"Parent/Carer's business hours number:"]]
-            qkr_df = qkr_df.rename(columns={"Parent/Carer's Full Name:": "Guardian's Name",
-                                    "Parent/Carer's business hours number:": "Contact Number"})
-        except:
             qkr_df = qkr_df[["First Name", "Last Name", "Parent/Carer's Name:" ,"Phone Number 1:", "Name:", "Relationship to student:", "Phone Number:"]]
             qkr_df = qkr_df.rename(columns={"Parent/Carer's Name:": "Guardian's Name",
                                     "Parent/Carer's business hours number:": "Contact Number",
@@ -159,20 +125,30 @@ def main():
                                     "Relationship to student:": "Relationship",
                                     "Phone Number:": "Contact Number"})
 
+        else:
+            qkr_df[['First Name','Last Name']] = qkr_df['Students Full Name:'].loc[qkr_df['Students Full Name:'].str.split().str.len() == 2].str.split(expand=True) # Split students name into first and last
+            qkr_df['First Name'].fillna(qkr_df['Students Full Name:'],inplace=True)
 
 
+            qkr_df = qkr_df[["First Name", "Last Name", "Parent/Carer's Full Name:" ,"Parent/Carer's business hours number:"]]
+            qkr_df = qkr_df.rename(columns={"Parent/Carer's Full Name:": "Guardian's Name",
+                                    "Parent/Carer's business hours number:": "Contact Number"})
+
+
+
+        # Compare master file in /Excursions to downloaded and formatted file, exception for if file does not exist
         try:
-
-            masterfile = 'Excursions' + name_trimmed + '.xlsx'
+            masterfile = 'Excursions' + excursionname + '.xlsx'
             master_df = pd.read_excel(masterfile)
 
             frames = [master_df, qkr_df]
             result = pd.concat(frames)
             result = result.drop_duplicates()
-            result.to_excel('Excursions' + name_trimmed + '.xlsx', index=False)  
+            result.to_excel('Excursions' + excursionname + '.xlsx', index=False)  
             
             
         except:
-            qkr_df.to_excel('Excursions' + name_trimmed + '.xlsx', index=False)  
+            qkr_df.to_excel("Excursions" + excursionname + '.xlsx', index=False)  
 
         os.remove(xlsxfile) 
+        
