@@ -151,4 +151,3 @@ def main():
             qkr_df.to_excel("Excursions" + excursionname + '.xlsx', index=False)  
 
         os.remove(xlsxfile) 
-        
