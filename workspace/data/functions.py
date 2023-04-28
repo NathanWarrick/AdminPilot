@@ -24,12 +24,12 @@ def cases_check():
         
 def print_bank_deposit(): 
     print("Print Bank Deposit")
-    click(r'workplace/assets/general/Print.png')
-    click(r'workplace/assets/general/Bank Deposit Slip.png')
+    click(r'workspace/assets/general/Print.png')
+    click(r'workspace/assets/general/Bank Deposit Slip.png')
     sleep(8)
-    if str(pyautogui.locateOnScreen(r'workplace/assets/general/Print Job Notification.png')) != "None":
+    if str(pyautogui.locateOnScreen(r'workspace/assets/general/Print Job Notification.png')) != "None":
         print("Found")
-        while str(pyautogui.locateOnScreen(r'workplace/assets/general/Print Job Notification zAdmininstration.png')) == "None":
+        while str(pyautogui.locateOnScreen(r'workspace/assets/general/Print Job Notification zAdmininstration.png')) == "None":
             print("Inorrect Account")
             pyautogui.typewrite("z")
         else:
@@ -42,10 +42,10 @@ def print_bank_deposit():
         
 def print_bank_deposit_fake(): 
     print("Fake Bank Deposit")
-    click(r'workplace/assets/general/Print.png')
-    click(r'workplace/assets/general/Bank Deposit Slip.png')
+    click(r'workspace/assets/general/Print.png')
+    click(r'workspace/assets/general/Bank Deposit Slip.png')
     sleep(8)
-    if str(pyautogui.locateOnScreen(r'workplace/assets/general/Print Job Notification.png')) != "None":
+    if str(pyautogui.locateOnScreen(r'workspace/assets/general/Print Job Notification.png')) != "None":
         print("Found")
         pyautogui.hotkey('alt','f4')
             
@@ -54,8 +54,8 @@ def print_bank_deposit_fake():
         
 def print_online_print(): 
     print("Online Print")
-    click(r'workplace/assets/general/Print.png')
-    click(r'workplace/assets/general/Online Print.png')
+    click(r'workspace/assets/general/Print.png')
+    click(r'workspace/assets/general/Online Print.png')
     sleep(10)
     
 def print_audit_trail():
@@ -63,20 +63,20 @@ def print_audit_trail():
     batch = functionsadv.batch_report()
     print("Batch Number")
     print(batch)
-    click(r'workplace/assets/general/Print.png')
-    click(r'workplace/assets/general/Audit Trail.png')
+    click(r'workspace/assets/general/Print.png')
+    click(r'workspace/assets/general/Audit Trail.png')
     sleep(10)
-    if str(pyautogui.locateOnScreen(r'workplace/assets/general/Filename_Dark.png')) != "None":
-        click(r'workplace/assets/general/Filename_Dark.png')
+    if str(pyautogui.locateOnScreen(r'workspace/assets/general/Filename_Dark.png')) != "None":
+        click(r'workspace/assets/general/Filename_Dark.png')
     else:
-        if str(pyautogui.locateOnScreen(r'workplace/assets/general/Filename2.png')) != "None":
-            click(r'workplace/assets/general/Filename_Light.png')
+        if str(pyautogui.locateOnScreen(r'workspace/assets/general/Filename2.png')) != "None":
+            click(r'workspace/assets/general/Filename_Light.png')
     sleep(1)
     pyautogui.typewrite(batch)
     pyautogui.typewrite(" by AdminPilot")
     pyautogui.press("Enter")
     sleep(3)
-    click(r'workplace/assets/general/Batch Print Yes.png')
+    click(r'workspace/assets/general/Batch Print Yes.png')
     sleep(2)
     pyautogui.hotkey('alt','f4')
         
@@ -297,9 +297,9 @@ def Centerpay(student_code, receipt_date, payment_total, fee_total):
     
 def BPAY():
     cases_check()
-    click(r'workplace/assets/financial/Families/Families.png')
-    click(r'workplace/assets/financial/Families/Process BPAY Receipts.png')
-    click(r'workplace/assets/financial/Families/BPAY Receipts.png')
+    click(r'workspace/assets/financial/Families/Families.png')
+    click(r'workspace/assets/financial/Families/Process BPAY Receipts.png')
+    click(r'workspace/assets/financial/Families/BPAY Receipts.png')
     pyautogui.press("Enter")
     sleep(4)
     pyautogui.press("Enter")
@@ -309,7 +309,7 @@ def BPAY():
     sleep(3)
     
     # If there are no records close the BPAY menu
-    if str(pyautogui.locateOnScreen(r'workplace/assets/financial/Errors/There are no records to generate the batch with.png')) != "None":
+    if str(pyautogui.locateOnScreen(r'workspace/assets/financial/Errors/There are no records to generate the batch with.png')) != "None":
         print("No BPAY!")
         pyautogui.press("Enter")
         pyautogui.hotkey('alt','f4')
@@ -321,9 +321,9 @@ def BPAY():
 def QKR_Canteen(total, receipt_date):
     print("Processing QKR Canteen")
     cases_check()
-    click(r'workplace/assets/financial/general ledger/general ledger.png')
-    click(r'workplace/assets/financial/general ledger/Process Receipts.png')
-    click(r'workplace/assets/financial/general ledger/general ledger Receipt.png')
+    click(r'workspace/assets/financial/general ledger/general ledger.png')
+    click(r'workspace/assets/financial/general ledger/Process Receipts.png')
+    click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
     pyautogui.press("Enter")
     sleep(4)
     pyautogui.press("Enter")
@@ -345,7 +345,7 @@ def QKR_Canteen(total, receipt_date):
     pyautogui.press("TAB")
     pyautogui.typewrite("EF")
     pyautogui.press("TAB")
-    click(r'workplace/assets/general/Save.png')
+    click(r'workspace/assets/general/Save.png')
     print_bank_deposit_fake()
     sleep(3)
     print_audit_trail()
@@ -360,9 +360,9 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     
     # Canteen Cash
     if cash_total != "":
-        click(r'workplace/assets/financial/general ledger/general ledger.png')
-        click(r'workplace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workplace/assets/financial/general ledger/general ledger Receipt.png')
+        click(r'workspace/assets/financial/general ledger/general ledger.png')
+        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
+        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
         pyautogui.press("Enter")
         sleep(4)
         pyautogui.press("Enter")
@@ -386,7 +386,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         pyautogui.typewrite("CA")
         pyautogui.press("TAB")
         cash_gl = functionsadv.reference_report()
-        click(r'workplace/assets/general/Save.png')
+        click(r'workspace/assets/general/Save.png')
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
@@ -395,9 +395,9 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     
     # Canteen Eft 1
     if eft1_total != "":
-        click(r'workplace/assets/financial/general ledger/general ledger.png')
-        click(r'workplace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workplace/assets/financial/general ledger/general ledger Receipt.png')
+        click(r'workspace/assets/financial/general ledger/general ledger.png')
+        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
+        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
         pyautogui.press("Enter")
         sleep(4)
         pyautogui.press("Enter")
@@ -421,7 +421,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         pyautogui.typewrite("EF")
         pyautogui.press("TAB")
         eft1_gl = functionsadv.reference_report()
-        click(r'workplace/assets/general/Save.png')
+        click(r'workspace/assets/general/Save.png')
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
@@ -430,9 +430,9 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     
     # Canteen Eft 2
     if eft2_total != "":
-        click(r'workplace/assets/financial/general ledger/general ledger.png')
-        click(r'workplace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workplace/assets/financial/general ledger/general ledger Receipt.png')
+        click(r'workspace/assets/financial/general ledger/general ledger.png')
+        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
+        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
         pyautogui.press("Enter")
         sleep(4)
         pyautogui.press("Enter")
@@ -456,7 +456,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         pyautogui.typewrite("EF")
         pyautogui.press("TAB")
         eft2_gl = functionsadv.reference_report()
-        click(r'workplace/assets/general/Save.png')
+        click(r'workspace/assets/general/Save.png')
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
@@ -466,16 +466,16 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
 def CSEF():
     print("CSEF Code goes here")
     cases_check()
-    click(r'workplace/assets/financial/Families/Families.png')
-    click(r'workplace/assets/financial/Families/Process CSEF Receipts.png')
-    click(r'workplace/assets/financial/Families/CSEF Receipts.png')
+    click(r'workspace/assets/financial/Families/Families.png')
+    click(r'workspace/assets/financial/Families/Process CSEF Receipts.png')
+    click(r'workspace/assets/financial/Families/CSEF Receipts.png')
     pyautogui.press("Enter")
     sleep(3)
     pyautogui.press("Enter")
     pyautogui.moveTo(10,10)
     sleep(3)
     
-    if str(pyautogui.locateOnScreen(r'workplace/assets/financial/Errors/There are no records to generate the batch with.png')) != "None":
+    if str(pyautogui.locateOnScreen(r'workspace/assets/financial/Errors/There are no records to generate the batch with.png')) != "None":
         print("No BPAY!")
         pyautogui.press("Enter")
         pyautogui.hotkey('alt','f4')
