@@ -1,9 +1,8 @@
 import os
-from time import sleep
 import customtkinter
 
 
-import Functions as functions  # Import Functions.py file as functions
+import workspace.data.functions as functions  # Import Functions.py file as functions
 import FunctionsGUI as guis
 from QKR_bot import qkr_bot
 
@@ -16,7 +15,7 @@ customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-bl
 class GUI(customtkinter.CTk): # Main GUI Config
     def __init__(self):
         super().__init__()
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
         
         self.title("AdminPilot")
         self.geometry("450x450")
