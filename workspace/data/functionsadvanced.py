@@ -35,15 +35,15 @@ class WindowMgr:
         
 def batch_report():
     try:
-        Batch_Location = pyautogui.locateCenterOnScreen(r'workplace/assets/general/Batch_Number.png')
+        Batch_Location = pyautogui.locateCenterOnScreen(r'workspace/assets/general/Batch_Number.png')
         Batch_Location_X = Batch_Location[0]
         Batch_Location_Y = Batch_Location[1]
     except:
         return("Can't find batch number")
     im = pyautogui.screenshot(region=((Batch_Location_X+45), (Batch_Location_Y-10), 40, 15),)
-    im.save(r'workplace/assets/temp/batch.png')
+    im.save(r'workspace/assets/temp/batch.png')
 
-    img = cv2.imread(r'workplace/assets/temp/batch.png')
+    img = cv2.imread(r'workspace/assets/temp/batch.png')
     img = cv2.resize(img, None, fx=2, fy=2)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -55,15 +55,15 @@ def batch_report():
 
 def reference_report():
     try:
-        Batch_Location = pyautogui.locateCenterOnScreen(r'workplace/assets/general/Reference.png')
+        Batch_Location = pyautogui.locateCenterOnScreen(r'workspace/assets/general/Reference.png')
         Batch_Location_X = Batch_Location[0]
         Batch_Location_Y = Batch_Location[1]
     except:
         return("Cant Find reference number")
     im = pyautogui.screenshot(region=((Batch_Location_X+38), (Batch_Location_Y-10), 65, 15),)
-    im.save(r'workplace/assets/temp/reference.png')
+    im.save(r'workspace/assets/temp/reference.png')
 
-    img = cv2.imread(r'workplace/assets/temp/reference.png')
+    img = cv2.imread(r'workspace/assets/temp/reference.png')
     img = cv2.resize(img, None, fx=2, fy=2)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
