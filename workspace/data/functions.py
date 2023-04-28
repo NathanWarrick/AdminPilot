@@ -15,13 +15,30 @@ def click(path):
     click_y = img[1]
     pyautogui.leftClick(x=click_x, y=click_y)
     sleep(.3)
-    
+
 def cases_check():
     try:
         functionsadv.focus('CASES21')
     except:
         print("Can't find the application")    
-        
+
+def cases_find(name, tries):
+    cases_check()
+    sleep(.1)
+    pyautogui.hotkey('ctrl', 'f')
+    sleep(.1)
+    pyautogui.typewrite(name)
+    sleep(.1)
+    i = 0
+    while i < tries:
+        pyautogui.press("ENTER")
+        sleep(.1)
+        i = i + 1
+    sleep(.1)
+    pyautogui.press("esc")
+    sleep(.1)
+    pyautogui.press("ENTER")
+
 def print_bank_deposit(): 
     print("Print Bank Deposit")
     click(r'workspace/assets/general/Print.png')
@@ -39,7 +56,7 @@ def print_bank_deposit():
     else:
         print("Can't find Papercut notification")
     sleep(3)
-        
+
 def print_bank_deposit_fake(): 
     print("Fake Bank Deposit")
     click(r'workspace/assets/general/Print.png')
@@ -51,13 +68,13 @@ def print_bank_deposit_fake():
             
     else:
         print("Can't find Papercut notification")
-        
+
 def print_online_print(): 
     print("Online Print")
     click(r'workspace/assets/general/Print.png')
     click(r'workspace/assets/general/Online Print.png')
     sleep(10)
-    
+
 def print_audit_trail():
     print("Print Audit Trail")
     batch = functionsadv.batch_report()
@@ -79,7 +96,7 @@ def print_audit_trail():
     click(r'workspace/assets/general/Batch Print Yes.png')
     sleep(2)
     pyautogui.hotkey('alt','f4')
-        
+
 
 # General
 def attendance_update(name, date_str, time_str, returning, reason, collected):
@@ -294,12 +311,9 @@ def Centerpay(student_code, receipt_date, payment_total, fee_total):
     print("Centerpay Code Here")
     # Centerpay is going to be a bit of a challenge to do well. 
     # Leave Centerpay for last
-    
+
 def BPAY():
-    cases_check()
-    click(r'workspace/assets/financial/Families/Families.png')
-    click(r'workspace/assets/financial/Families/Process BPAY Receipts.png')
-    click(r'workspace/assets/financial/Families/BPAY Receipts.png')
+    cases_find('DF31062', 1)
     pyautogui.press("Enter")
     sleep(4)
     pyautogui.press("Enter")
@@ -317,14 +331,10 @@ def BPAY():
     print_bank_deposit()
     sleep(4)
     print_audit_trail()
- 
+
 def QKR_Canteen(total, receipt_date):
     print("Processing QKR Canteen")
-    cases_check()
-    click(r'workspace/assets/financial/general ledger/general ledger.png')
-    click(r'workspace/assets/financial/general ledger/Process Receipts.png')
-    click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
-    pyautogui.press("Enter")
+    cases_find('GL31061', 1)
     sleep(4)
     pyautogui.press("Enter")
     pyautogui.moveTo(10,10)
@@ -349,7 +359,7 @@ def QKR_Canteen(total, receipt_date):
     print_bank_deposit_fake()
     sleep(3)
     print_audit_trail()
-      
+
 def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     print("Processing Canteen Payments")
     cases_check()
@@ -360,10 +370,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     
     # Canteen Cash
     if cash_total != "":
-        click(r'workspace/assets/financial/general ledger/general ledger.png')
-        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
-        pyautogui.press("Enter")
+        cases_find('GL31061', 1)
         sleep(4)
         pyautogui.press("Enter")
         pyautogui.moveTo(10,10)
@@ -395,10 +402,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     
     # Canteen Eft 1
     if eft1_total != "":
-        click(r'workspace/assets/financial/general ledger/general ledger.png')
-        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
-        pyautogui.press("Enter")
+        cases_find('GL31061', 1)
         sleep(4)
         pyautogui.press("Enter")
         pyautogui.moveTo(10,10)
@@ -430,10 +434,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     
     # Canteen Eft 2
     if eft2_total != "":
-        click(r'workspace/assets/financial/general ledger/general ledger.png')
-        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
-        pyautogui.press("Enter")
+        cases_find('GL31061', 1)
         sleep(4)
         pyautogui.press("Enter")
         pyautogui.moveTo(10,10)
@@ -462,14 +463,10 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         print_audit_trail()
         
     guis.Canteen_Overview(cash_total, cash_gl, eft1_total, eft1_gl, eft2_total, eft2_gl, receipt_date).mainloop()
-       
+
 def CSEF():
     print("CSEF Code goes here")
-    cases_check()
-    click(r'workspace/assets/financial/Families/Families.png')
-    click(r'workspace/assets/financial/Families/Process CSEF Receipts.png')
-    click(r'workspace/assets/financial/Families/CSEF Receipts.png')
-    pyautogui.press("Enter")
+    cases_find('DF21310', 1)
     sleep(3)
     pyautogui.press("Enter")
     pyautogui.moveTo(10,10)
