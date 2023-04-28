@@ -4,6 +4,7 @@ import customtkinter
 
 from workspace.data import functions as functions  # Import Functions.py file as functions
 from workspace.bots.qkr_bot import qkr_bot
+from workspace.bots.papercut_bot import papercut_bot
 
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
@@ -25,6 +26,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
         # General Windows
         self.absence_window = None
         self.student_ID_window = None
+        self.papercut_deposit_window = None
         
         # Acc Receivable windows
         self.centerpay_window = None
@@ -98,7 +100,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.General_frame_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.General_frame_button_2 = customtkinter.CTkButton(self.General_frame, text="Student ID", command=self.Student_ID_Button_Event)
         self.General_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
-        self.General_frame_button_3 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="top", fg_color='dark red', hover_color='dark red')
+        self.General_frame_button_3 = customtkinter.CTkButton(self.General_frame, text="Papercut Deposit", compound="top", command=self.Papercut_Deposit_Button_Event)
         self.General_frame_button_3.grid(row=3, column=0, padx=20, pady=10)
         self.General_frame_button_4 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="bottom", fg_color='dark red', hover_color='dark red')
         self.General_frame_button_4.grid(row=4, column=0, padx=20, pady=10)
@@ -199,7 +201,14 @@ class GUI(customtkinter.CTk): # Main GUI Config
             return()
         else:
             self.student_ID_window.focus()
-        
+            
+    def Papercut_Deposit_Button_Event(self):
+        if self.papercut_deposit_window is None or not self.papercut_deposit_window.winfo_exists():
+            self.papercut_deposit_window = Papercut_Deposit()
+            return()
+        else:
+            self.papercut_deposit_window.focus()
+            
     #Accounts Receivable
     def Centerpay_Button_Event(self):
         if self.centerpay_window is None or not self.centerpay_window.winfo_exists():
@@ -329,12 +338,6 @@ class Student_ID(customtkinter.CTkToplevel):
         self.Student_ID_Name = customtkinter.CTkEntry(self.student_ID_frame, placeholder_text="Name", width=280, height=40, border_width=1, corner_radius=10)
         self.Student_ID_Name.grid(row=0, column=1, padx=10, pady=8)
         
-        # # Time Field
-        # self.absence_frame_label = customtkinter.CTkLabel(self.absence_frame, text="Time", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
-        # self.absence_frame_label.grid(row=1, column=0, padx=10, pady=8)
-        # self.Absence_Time = customtkinter.CTkEntry(self.absence_frame, placeholder_text="Time", width=280, height=40, border_width=1, corner_radius=10)
-        # self.Absence_Time.grid(row=1, column=1, padx=10, pady=8)
-        
         # Buttons (Seperate frame)
         self.cancel = customtkinter.CTkButton(self.buttons_frame, command=self.Cancel_button_event, text="Cancel", fg_color="Red", hover_color="Dark Red")
         self.cancel.grid(row=0, column=0, padx=20, pady=20, sticky="ew")        
@@ -350,6 +353,67 @@ class Student_ID(customtkinter.CTkToplevel):
     def Submit_button_event(self):
         print("Submit Student ID Request")
         functions.student_ID(self.Student_ID_Name.get())
+        self.destroy()
+        
+class Papercut_Deposit(customtkinter.CTkToplevel):
+    def __init__(self):
+        super().__init__()
+        self.geometry("450x292")
+        self.lift()
+        self.title("Papercut Deposit")
+        
+        
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        
+        self.papercut_deposit_frame = customtkinter.CTkFrame(self, corner_radius=0, width=450, height=300)
+        self.papercut_deposit_frame.grid(row=0, column=0, sticky="nsew")
+        self.papercut_deposit_frame.grid_rowconfigure(6, weight=1) # Change number of rows in the naviation frame
+        
+        self.buttons_frame = customtkinter.CTkFrame(self, corner_radius=0, width=400, height=100)
+        self.buttons_frame.grid(row=1, column=0, sticky="nsew")
+        self.buttons_frame.grid_rowconfigure(1, weight=1) # Change number of rows in the naviation frame
+        self.buttons_frame.grid_columnconfigure(3, weight=1)
+        
+        # Name Field
+        self.papercut_deposit_frame_label = customtkinter.CTkLabel(self.papercut_deposit_frame, text="Name *", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"), width=110)
+        self.papercut_deposit_frame_label.grid(row=0, column=0, padx=10, pady=8)
+        self.papercut_deposit_name = customtkinter.CTkEntry(self.papercut_deposit_frame, placeholder_text="Name", width=300, height=40, border_width=1, corner_radius=10)
+        self.papercut_deposit_name.grid(row=0, column=1, padx=10, pady=8)
+        
+        # Amount Field
+        self.papercut_deposit_frame_label = customtkinter.CTkLabel(self.papercut_deposit_frame, text="Amount *", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"), width=110)
+        self.papercut_deposit_frame_label.grid(row=1, column=0, padx=10, pady=8)
+        self.papercut_deposit_amount = customtkinter.CTkEntry(self.papercut_deposit_frame, placeholder_text="Amount", width=300, height=40, border_width=1, corner_radius=10)
+        self.papercut_deposit_amount.grid(row=1, column=1, padx=10, pady=8)
+        
+        # Method Field
+        self.papercut_deposit_frame_label = customtkinter.CTkLabel(self.papercut_deposit_frame, text="Method *", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"), width=110)
+        self.papercut_deposit_frame_label.grid(row=2, column=0, padx=10, pady=8)
+        self.papercut_deposit_method = customtkinter.CTkComboBox(self.papercut_deposit_frame,values=["Cash", "EFT", "Other"],width=300, height=40, border_width=1, corner_radius=10)
+        self.papercut_deposit_method.grid(row=2, column=1, padx=10, pady=8)
+        
+        # Comment Field
+        self.papercut_deposit_frame_label = customtkinter.CTkLabel(self.papercut_deposit_frame, text="Comment ", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"), width=110)
+        self.papercut_deposit_frame_label.grid(row=3, column=0, padx=10, pady=8)
+        self.papercut_deposit_comment = customtkinter.CTkEntry(self.papercut_deposit_frame, placeholder_text="", width=300, height=40, border_width=1, corner_radius=10)
+        self.papercut_deposit_comment.grid(row=3, column=1, padx=10, pady=8)
+        
+        # Buttons (Seperate frame)
+        self.cancel = customtkinter.CTkButton(self.buttons_frame, command=self.Cancel_button_event, text="Cancel", fg_color="Red", hover_color="Dark Red")
+        self.cancel.grid(row=0, column=0, padx=20, pady=20, sticky="ew")        
+        self.submit = customtkinter.CTkButton(self.buttons_frame, command=self.Submit_button_event, text="Finish", fg_color="Green", hover_color="Dark Green")
+        self.submit.grid(row=0, column=3, padx=20, pady=20, sticky="ew")
+        
+        
+        # Cancel and submit buttons
+    def Cancel_button_event(self):
+        print("Cancel Student ID Submission")
+        self.destroy()
+        
+    def Submit_button_event(self):
+        print("Submit Student ID Request")
+        papercut_bot.deposit(self.papercut_deposit_name.get(), self.papercut_deposit_amount.get(), self.papercut_deposit_method.get(), self.papercut_deposit_comment.get())
         self.destroy()
 
 class Centerpay(customtkinter.CTkToplevel):
