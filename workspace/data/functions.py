@@ -480,6 +480,9 @@ def CSEF():
     print_bank_deposit()
     sleep(4)
     print_audit_trail()
+    
+def Vehigle_GL():
+    print('Code goes here')
         
 # Accounts Payable
 
