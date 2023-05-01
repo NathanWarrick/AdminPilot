@@ -124,6 +124,8 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.Accounts_Receivable_button_5.grid(row=5, column=0, padx=20, pady=10)
         self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="QKR Update", command=self.QKR_Update_Button_Event, fg_color='dark red', hover_color='dark red')
         self.Accounts_Receivable_button_5.grid(row=6, column=0, padx=20, pady=10)
+        self.Accounts_Receivable_button_5 = customtkinter.CTkButton(self.Accounts_Receivable_frame, text="Vehicle Expense", command=self.Vehicle_Expense_Button_Event)
+        self.Accounts_Receivable_button_5.grid(row=7, column=0, padx=20, pady=10)
 
         # Create Acc Pay frame
         self.Accounts_Payable_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
@@ -237,6 +239,9 @@ class GUI(customtkinter.CTk): # Main GUI Config
         
     def QKR_Update_Button_Event(self):
         self.qkr_update_window = QKR_Update()
+        
+    def Vehicle_Expense_Button_Event(self):
+        self.vehicle_expense_window = Vehicle_Expense()
 
 class Absence(customtkinter.CTkToplevel):
     def __init__(self):
@@ -602,6 +607,11 @@ class QKR_Update():
     def __init__(self):
         super().__init__()
         qkr_bot.main()
-    
+        
+class Vehicle_Expense():
+    def __init__(self):
+        super().__init__()
+        functions.Vehigle_GL()
+        
 if __name__ == "__main__":
     GUI().mainloop()

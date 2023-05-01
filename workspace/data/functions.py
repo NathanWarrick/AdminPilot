@@ -1,7 +1,8 @@
 import os
 from datetime import date, datetime
 from time import sleep
-
+import pandas as pd
+import customtkinter
 import pyautogui
 import win32com.client
 
@@ -480,7 +481,88 @@ def CSEF():
     print_bank_deposit()
     sleep(4)
     print_audit_trail()
+    
+def Vehigle_GL():
+    filename = customtkinter.filedialog.askopenfilename(title="Dialog box")
+    print(filename)
+    df = pd.read_excel(filename)
+
+    # Clean up the data
+    df = df.drop(labels=range(0,3), axis=0)
+    df = df.rename(columns={'Allocation of Motor Vehicle Costs': 'Date', 'Unnamed: 1': 'Department', 'Unnamed: 2': 'KMs', 'Unnamed: 3': 'Cost', 'Unnamed: 4': 'Total', 'Unnamed: 5': 'Sub Prog', 'Unnamed: 6': 'Driver'})
+    df = df.dropna(how='any')
+
+
+    # Initialise
+    size = df.shape[0] + 3
+    i = 3
+    total = 0
+    vehicle = None
+
+    months = {'01': 'JAN','02': 'FEB','03': 'MAR','04': 'APR','05': 'MAY','06': 'JUN','07': 'JUL','08': 'AUG','09': 'SEP','10': 'OCT','11': 'NOV','12': 'DEC'}
+    lowmonth = '12'
+    highmonth = '0'
+
+
+    # Determine mode of transport
+    if str(df.loc[3]['Cost']) == '0.66':
+        vehicle = 'Bus'
+        print("Bus")
+    elif str(df.loc[3]['Cost']) == '0.25':
+        vehicle = 'Car'
+        print("Car")
+    else:
+        print("Error: Cost not associated with Vehicle")
+        exit()
+
+    cases_find('GL31081S', 1)
+    sleep(3)
+    pyautogui.press("Enter")
+    sleep(3)
+    pyautogui.press("TAB")
+
+    # Loop to run for all entries
+    while i < size:
+        date = str(df.loc[i]['Date'])
+        month = date[5:7]
         
+        pyautogui.typewrite(str(df.loc[i]['Sub Prog']))
+        pyautogui.press("TAB")
+        if vehicle == 'Bus':
+            pyautogui.typewrite('89302')
+        else:
+            pyautogui.typewrite('86701')
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        pyautogui.typewrite(vehicle + ' Usage ' + months.get(month) + ' ' + str(df.loc[i]['Driver']))
+        pyautogui.press("TAB")
+        pyautogui.typewrite(str(df.loc[i]['Total']))
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        
+        if month > highmonth:
+            highmonth = month
+        if month < lowmonth:
+            lowmonth = month
+        total = total + df.loc[i]['Total']
+        i = i + 1
+        
+    total = str(total)
+    year = date[2:4]
+    if vehicle == 'Bus':
+        pyautogui.typewrite('9362')
+    else:
+        pyautogui.typewrite('9361')
+    pyautogui.press("TAB")
+    pyautogui.typewrite('86701')
+    pyautogui.press("TAB")
+    pyautogui.press("TAB")
+    pyautogui.typewrite('Bus Usage ' + months.get(lowmonth) + '-' + months.get(highmonth) + ' ' + year)  
+    pyautogui.press("TAB")
+    pyautogui.press("TAB")
+    pyautogui.typewrite(total[0:6])
+    pyautogui.press("TAB")
+    
 # Accounts Payable
 
 # Student Records
