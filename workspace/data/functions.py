@@ -9,7 +9,6 @@ import win32com.client
 import workspace.data.functionsadvanced as functionsadv
 from workspace.ui import popups as guis
 
-
 def click(path):
     img = pyautogui.locateCenterOnScreen(path, confidence=.98)
     click_x = img[0]
@@ -25,19 +24,19 @@ def cases_check():
 
 def cases_find(name, tries):
     cases_check()
-    sleep(.1)
+    sleep(.3)
     pyautogui.hotkey('ctrl', 'f')
-    sleep(.1)
+    sleep(.3)
     pyautogui.typewrite(name)
-    sleep(.1)
+    sleep(.3)
     i = 0
     while i < tries:
         pyautogui.press("ENTER")
-        sleep(.1)
+        sleep(.3)
         i = i + 1
-    sleep(.1)
+    sleep(.3)
     pyautogui.press("esc")
-    sleep(.1)
+    sleep(.3)
     pyautogui.press("ENTER")
 
 def print_bank_deposit(): 
@@ -97,7 +96,6 @@ def print_audit_trail():
     click(r'workspace/assets/general/Batch Print Yes.png')
     sleep(2)
     pyautogui.hotkey('alt','f4')
-
 
 # General
 def attendance_update(name, date_str, time_str, returning, reason, collected):
@@ -306,7 +304,6 @@ def student_ID(name):
     # mailItem.Display() #email is displayed prior to sending
     mailItem.Send() #email is sent
 
-
 # Accounts Receivable
 def Centerpay(student_code, receipt_date, payment_total, fee_total):
     print("Centerpay Code Here")
@@ -363,11 +360,12 @@ def QKR_Canteen(total, receipt_date):
 
 def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     print("Processing Canteen Payments")
-    cases_check()
     
     if receipt_date != "":
         receipt_date = date.today().strftime("%d/%m/%Y")
-        
+    cashdone = 0
+    eft1done = 0
+    eft2done = 0
     
     # Canteen Cash
     if cash_total != "":
@@ -398,12 +396,16 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
+        cashdone = 1
         
         sleep(5)
     
     # Canteen Eft 1
     if eft1_total != "":
-        cases_find('GL31061', 1)
+        if cashdone != 1: 
+            cases_find('GL31061', 1)
+        else:
+            pyautogui.press("Enter")
         sleep(4)
         pyautogui.press("Enter")
         pyautogui.moveTo(10,10)
@@ -430,12 +432,19 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
+        eft1done = 1
         
         sleep(5)
     
     # Canteen Eft 2
     if eft2_total != "":
-        cases_find('GL31061', 1)
+        if cashdone != 1:
+            if eft1done != 1:
+                cases_find('GL31061', 1)
+            else:
+                pyautogui.press("Enter")
+        else:
+            pyautogui.press("Enter")
         sleep(4)
         pyautogui.press("Enter")
         pyautogui.moveTo(10,10)
@@ -462,6 +471,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
+        eftdone = 1
         
     guis.Canteen_Overview(cash_total, cash_gl, eft1_total, eft1_gl, eft2_total, eft2_gl, receipt_date).mainloop()
 

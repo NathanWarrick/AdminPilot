@@ -1,11 +1,9 @@
 import os
 import customtkinter
 
-
 from workspace.data import functions as functions  # Import Functions.py file as functions
 from workspace.bots.qkr_bot import qkr_bot
 from workspace.bots.papercut_bot import papercut_bot
-
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
