@@ -99,7 +99,8 @@ class Browser_Headless: # Selenium Browser Configuration
         self.browser.set_window_size(S('Width'),S('Height')) # May need manual adjustment
         self.browser.find_element(by=By.TAG_NAME, value='body').screenshot('web_screenshot.png')
         im = cv2.imread('web_screenshot.png')
-        h, w, _ = im.shape       
+        h, w, _ = im.shape
+        os.remove('web_screenshot.png')       
         return h
 
 
@@ -111,7 +112,7 @@ def main():
     browser.login_qkr(secret.qkr_username, secret.qkr_password)
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/app/storeFront#/forms')
     time.sleep(2)
-    print('Page height is: ' + browser.page_height())    
+    print('Page height is: ' + str(browser.page_height()))    
        
     browser = Browser(driverlocation)
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/index.html')
@@ -239,4 +240,5 @@ def main():
             qkr_df.to_excel("Excursions" + excursionname + '.xlsx', index=False)  
 
         os.remove(xlsxfile) 
+        return('done')
         
