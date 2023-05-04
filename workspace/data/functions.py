@@ -501,7 +501,7 @@ def Vehigle_GL():
     df = df.drop(labels=range(0,3), axis=0)
     df = df.rename(columns={'Allocation of Motor Vehicle Costs': 'Date', 'Unnamed: 1': 'Department', 'Unnamed: 2': 'KMs', 'Unnamed: 3': 'Cost', 'Unnamed: 4': 'Total', 'Unnamed: 5': 'Sub Prog', 'Unnamed: 6': 'Driver'})
     df = df.dropna(how='any')
-
+    print(df)
 
     # Initialise
     size = df.shape[0] + 3
@@ -525,6 +525,7 @@ def Vehigle_GL():
         print("Error: Cost not associated with Vehicle")
         exit()
 
+    #return
     cases_find('GL31081S', 1)
     sleep(3)
     pyautogui.press("Enter")
@@ -534,7 +535,10 @@ def Vehigle_GL():
     # Loop to run for all entries
     while i < size:
         date = str(df.loc[i]['Date'])
+        monthword = date[5:7]
         month = date[5:7]
+        day = date[8:10]
+        
         
         pyautogui.typewrite(str(df.loc[i]['Sub Prog']))
         pyautogui.press("TAB")
@@ -544,7 +548,8 @@ def Vehigle_GL():
             pyautogui.typewrite('86701')
         pyautogui.press("TAB")
         pyautogui.press("TAB")
-        pyautogui.typewrite(vehicle + ' Usage ' + months.get(month) + ' ' + str(df.loc[i]['Driver']))
+        #pyautogui.typewrite(vehicle + ' Usage ' + months.get(monthword) + ' ' + str(df.loc[i]['Driver']))
+        pyautogui.typewrite(vehicle + ' Usage ' + day + '-' + month + ' ' + str(df.loc[i]['Driver']))
         pyautogui.press("TAB")
         pyautogui.typewrite(str(df.loc[i]['Total']))
         pyautogui.press("TAB")
