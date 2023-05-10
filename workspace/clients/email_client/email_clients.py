@@ -107,8 +107,7 @@ def excursion_check():
                     print('Cost: ' + cost)
                     print('\n')
                     
-                    # Begin QKR
-                    
+                    # ************************************************ Begin QKR ************************************************
                     
                     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/index.html')
                     time.sleep(2)
