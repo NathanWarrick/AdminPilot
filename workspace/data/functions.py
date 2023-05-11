@@ -578,6 +578,9 @@ def Vehigle_GL():
     pyautogui.typewrite(total[0:6])
     pyautogui.press("TAB")
     
+    print_bank_deposit()
+    print_audit_trail()
+    
 # Accounts Payable
 
 # Student Records
