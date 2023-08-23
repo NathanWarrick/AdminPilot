@@ -1,15 +1,21 @@
 import os
+import sys
+import time
+
 import customtkinter
 import keyboard
-import time
-import sys
 
-from workspace.data import functions as functions  # Import Functions.py file as functions
-from workspace.bots.qkr_bot import qkr_bot
 from workspace.bots.papercut_bot import papercut_bot
+from workspace.bots.qkr_bot import qkr_bot
+from workspace.data import \
+    functions as functions  # Import Functions.py file as functions
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
+
+import version
+
+__version__ = version.version
 
 class GUI(customtkinter.CTk): # Main GUI Config
     def __init__(self):
@@ -33,8 +39,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.centerpay_window = None
         self.canteen_window = None
         self.qkr_canteen_window = None
-        
-        
+                
         # Acc Payable Windows
         
         # Student Records Windows
@@ -46,7 +51,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.navigation_frame.grid(row=0, column=0, sticky="nsew")
         self.navigation_frame.grid_rowconfigure(6, weight=1) # Change number of rows in the naviation frame
 
-        self.navigation_frame_label = customtkinter.CTkLabel(self.navigation_frame, text="  AdminPilot",
+        self.navigation_frame_label = customtkinter.CTkLabel(self.navigation_frame, text=" AdminPilot v"+__version__,
                                                              compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
         self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
 

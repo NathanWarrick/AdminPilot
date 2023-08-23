@@ -1,15 +1,13 @@
-import win32com.client
 import os
 import re
-import PyPDF2
 import time
 
+import PyPDF2
+import win32com.client
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-
-
 
 # ------------------------ SETUP --------------------------------
 driverlocation = r'workspace\assets\drivers\chromedriver.exe'

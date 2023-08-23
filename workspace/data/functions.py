@@ -1,13 +1,17 @@
 import os
 from datetime import date, datetime
 from time import sleep
-import pandas as pd
+
 import customtkinter
+import pandas as pd
 import pyautogui
 import win32com.client
 
+import version
 import workspace.data.functionsadvanced as functionsadv
 from workspace.ui import popups as guis
+
+__version__ = version.version
 
 def click(path):
     img = pyautogui.locateCenterOnScreen(path, confidence=.98)
@@ -91,7 +95,7 @@ def print_audit_trail():
             click(r'workspace/assets/general/Filename_Light.png')
     sleep(1)
     pyautogui.typewrite(batch)
-    pyautogui.typewrite(" by AdminPilot")
+    pyautogui.typewrite(" by AdminPilot v"+__version__)
     pyautogui.press("Enter")
     sleep(3)
     click(r'workspace/assets/general/Batch Print Yes.png')
@@ -157,7 +161,10 @@ def attendance_update(name, date_str, time_str, returning, reason, collected):
             
             </h1>
             <p class="adminpilot">
-                Sent with AdminPilot
+                Sent with AdminPilot v
+                '''
+                + __version__ +
+                '''
                 <br><br>
                 https://github.com/NathanWarrick/AdminPilot
             </p>
@@ -221,7 +228,10 @@ def attendance_update(name, date_str, time_str, returning, reason, collected):
             <br><br>
             </h1>
             <p class="adminpilot">
-                Sent with AdminPilot
+                Sent with AdminPilot v
+                '''
+                + __version__ +
+                '''
                 <br><br>
                 https://github.com/NathanWarrick/AdminPilot
             </p>
@@ -275,7 +285,10 @@ def student_ID(name):
         </p>
     
         <p class="adminpilot">
-        Sent with AdminPilot
+        Sent with AdminPilot v
+        '''
+        + __version__ +
+        '''
         <br><br>
         https://github.com/NathanWarrick/AdminPilot
         </p>
@@ -308,8 +321,8 @@ def student_ID(name):
         </style>
         ''')
     
-    # mailItem.Display() #email is displayed prior to sending
-    mailItem.Send() #email is sent
+    mailItem.Display() #email is displayed prior to sending
+    #mailItem.Send() #email is sent
 
 # Accounts Receivable
 def Centerpay(student_code, receipt_date, payment_total, fee_total):

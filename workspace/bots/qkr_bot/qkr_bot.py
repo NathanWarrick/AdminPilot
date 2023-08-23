@@ -1,18 +1,17 @@
 # Selenium inports
+import os
+import time
+
+import cv2
+import pandas as pd
+import pyautogui
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-
-import os
-import pyautogui
-import pandas as pd
 from xls2xlsx import XLS2XLSX
-import time
-import cv2
 
 from workspace.bots import secret
-
 
 # --------------------------SETUP-------------------------- #
 dir_path = os.path.dirname(os.path.realpath(__file__))
