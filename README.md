@@ -14,6 +14,10 @@ Created and maintained by Nathan Warrick
 * xls2xlsx
 * cv2
 
+
+pip install -r requirements.txt
+
+
 # Capabilities
 * Automatic Email Writing
 * Depositing money onto Papercut (Selenium)
