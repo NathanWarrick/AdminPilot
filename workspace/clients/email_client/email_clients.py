@@ -239,5 +239,6 @@ def qkr_transaction_report():
                     
             #os.remove(os.getcwd() + r'\workspace\clients\email_client\downloads' + '\\' + attachment.FileName) # Remove file upon completion
             
-print(qkr_cases_report())
+#print(qkr_cases_report())
 #qkr_transaction_report()
+#excursion_check()

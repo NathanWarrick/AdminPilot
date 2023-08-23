@@ -19,6 +19,7 @@ def click(path):
 def cases_check():
     try:
         functionsadv.focus('CASES21')
+        sleep(.5)
     except:
         print("Can't find the application")    
 
@@ -43,7 +44,7 @@ def print_bank_deposit():
     print("Print Bank Deposit")
     click(r'workspace/assets/general/Print.png')
     click(r'workspace/assets/general/Bank Deposit Slip.png')
-    sleep(8)
+    sleep(10)
     if str(pyautogui.locateOnScreen(r'workspace/assets/general/Print Job Notification.png')) != "None":
         print("Found")
         while str(pyautogui.locateOnScreen(r'workspace/assets/general/Print Job Notification zAdmininstration.png')) == "None":
@@ -157,6 +158,8 @@ def attendance_update(name, date_str, time_str, returning, reason, collected):
             </h1>
             <p class="adminpilot">
                 Sent with AdminPilot
+                <br><br>
+                https://github.com/NathanWarrick/AdminPilot
             </p>
             <style>
             h1 {
@@ -219,6 +222,8 @@ def attendance_update(name, date_str, time_str, returning, reason, collected):
             </h1>
             <p class="adminpilot">
                 Sent with AdminPilot
+                <br><br>
+                https://github.com/NathanWarrick/AdminPilot
             </p>
 
             <style>
@@ -271,6 +276,8 @@ def student_ID(name):
     
         <p class="adminpilot">
         Sent with AdminPilot
+        <br><br>
+        https://github.com/NathanWarrick/AdminPilot
         </p>
         
         <style>
@@ -565,14 +572,17 @@ def Vehigle_GL():
     total = str(total)
     year = date[2:4]
     if vehicle == 'Bus':
-        pyautogui.typewrite('9362')
+        pyautogui.typewrite('9360')
     else:
         pyautogui.typewrite('9361')
     pyautogui.press("TAB")
     pyautogui.typewrite('86701')
     pyautogui.press("TAB")
     pyautogui.press("TAB")
-    pyautogui.typewrite('Bus Usage ' + months.get(lowmonth) + '-' + months.get(highmonth) + ' ' + year)  
+    if vehicle == 'Bus':
+        pyautogui.typewrite('Bus Usage ' + months.get(lowmonth) + '-' + months.get(highmonth) + ' ' + year) 
+    else:
+        pyautogui.typewrite('Car Usage ' + months.get(lowmonth) + '-' + months.get(highmonth) + ' ' + year)   
     pyautogui.press("TAB")
     pyautogui.press("TAB")
     pyautogui.typewrite(total[0:6])
@@ -586,5 +596,3 @@ def Vehigle_GL():
 # Student Records
 
 # Business Manager
-
-# Canteen_Overview().mainloop()

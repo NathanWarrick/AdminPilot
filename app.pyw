@@ -1,5 +1,8 @@
 import os
 import customtkinter
+import keyboard
+import time
+import sys
 
 from workspace.data import functions as functions  # Import Functions.py file as functions
 from workspace.bots.qkr_bot import qkr_bot
@@ -77,14 +80,17 @@ class GUI(customtkinter.CTk): # Main GUI Config
                                                        anchor="w", command=self.Business_Manager_button_event)
         self.Business_Manager_button.grid(row=5, column=0, sticky="ew")
 
+        # Reset Button
+        self.Reset_button = customtkinter.CTkButton(self.navigation_frame, corner_radius=0, height=40, border_spacing=10, text="Restart",
+                                                      fg_color="transparent", text_color=("gray10", "gray90"), hover_color=("gray70", "gray30"),
+                                                       anchor="w", command=self.Adminpilot_Reset)
+        self.Reset_button.grid(row=6, column=0, sticky="sew")        
+
+        # Theme button
+
         self.appearance_mode_menu = customtkinter.CTkOptionMenu(self.navigation_frame, values=["Light", "Dark", "System"],
                                                                 command=self.change_appearance_mode_event)
-        self.appearance_mode_menu.grid(row=6, column=0, padx=20, pady=20, sticky="s")
-
-
-        self.appearance_mode_menu = customtkinter.CTkOptionMenu(self.navigation_frame, values=["Light", "Dark", "System"],
-                                                                command=self.change_appearance_mode_event)
-        self.appearance_mode_menu.grid(row=6, column=0, padx=20, pady=20, sticky="s")
+        self.appearance_mode_menu.grid(row=7, column=0, padx=20, pady=20, sticky="s")
 
 
         #Create General Frame
@@ -183,7 +189,11 @@ class GUI(customtkinter.CTk): # Main GUI Config
         
     def Business_Manager_button_event(self):
         self.select_frame_by_name("Business Manager")
-
+        
+    def Adminpilot_Reset(self):
+        print('Restarting')
+        os.execv(sys.executable, ['python'] + sys.argv)
+        
     def change_appearance_mode_event(self, new_appearance_mode):
         customtkinter.set_appearance_mode(new_appearance_mode)
         
@@ -612,4 +622,8 @@ class Vehicle_Expense():
         functions.Vehigle_GL()
         
 if __name__ == "__main__":
-    GUI().mainloop()
+    print('Initialised')
+    while True:
+        time.sleep(.1)
+        if keyboard.is_pressed('alt+x'):
+            GUI().mainloop()
