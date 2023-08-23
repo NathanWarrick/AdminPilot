@@ -1,7 +1,7 @@
 # About
 AdminPilot is a program written in Python that adds aditional functionality to jobs in the admin office of Horsham College, as well as automating tasks
 
-Version 2.0.1
+Version 2.1.0
 
 Created and maintained by Nathan Warrick
 
