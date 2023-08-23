@@ -1,13 +1,13 @@
 import os
 from datetime import date, datetime
 from time import sleep
-
+import pandas as pd
+import customtkinter
 import pyautogui
 import win32com.client
 
 import workspace.data.functionsadvanced as functionsadv
 from workspace.ui import popups as guis
-
 
 def click(path):
     img = pyautogui.locateCenterOnScreen(path, confidence=.98)
@@ -15,18 +15,36 @@ def click(path):
     click_y = img[1]
     pyautogui.leftClick(x=click_x, y=click_y)
     sleep(.3)
-    
+
 def cases_check():
     try:
         functionsadv.focus('CASES21')
+        sleep(.5)
     except:
         print("Can't find the application")    
-        
+
+def cases_find(name, tries):
+    cases_check()
+    sleep(.3)
+    pyautogui.hotkey('ctrl', 'f')
+    sleep(.3)
+    pyautogui.typewrite(name)
+    sleep(.3)
+    i = 0
+    while i < tries:
+        pyautogui.press("ENTER")
+        sleep(.3)
+        i = i + 1
+    sleep(.3)
+    pyautogui.press("esc")
+    sleep(.3)
+    pyautogui.press("ENTER")
+
 def print_bank_deposit(): 
     print("Print Bank Deposit")
     click(r'workspace/assets/general/Print.png')
     click(r'workspace/assets/general/Bank Deposit Slip.png')
-    sleep(8)
+    sleep(10)
     if str(pyautogui.locateOnScreen(r'workspace/assets/general/Print Job Notification.png')) != "None":
         print("Found")
         while str(pyautogui.locateOnScreen(r'workspace/assets/general/Print Job Notification zAdmininstration.png')) == "None":
@@ -39,7 +57,7 @@ def print_bank_deposit():
     else:
         print("Can't find Papercut notification")
     sleep(3)
-        
+
 def print_bank_deposit_fake(): 
     print("Fake Bank Deposit")
     click(r'workspace/assets/general/Print.png')
@@ -51,13 +69,13 @@ def print_bank_deposit_fake():
             
     else:
         print("Can't find Papercut notification")
-        
+
 def print_online_print(): 
     print("Online Print")
     click(r'workspace/assets/general/Print.png')
     click(r'workspace/assets/general/Online Print.png')
     sleep(10)
-    
+
 def print_audit_trail():
     print("Print Audit Trail")
     batch = functionsadv.batch_report()
@@ -79,7 +97,6 @@ def print_audit_trail():
     click(r'workspace/assets/general/Batch Print Yes.png')
     sleep(2)
     pyautogui.hotkey('alt','f4')
-        
 
 # General
 def attendance_update(name, date_str, time_str, returning, reason, collected):
@@ -141,6 +158,8 @@ def attendance_update(name, date_str, time_str, returning, reason, collected):
             </h1>
             <p class="adminpilot">
                 Sent with AdminPilot
+                <br><br>
+                https://github.com/NathanWarrick/AdminPilot
             </p>
             <style>
             h1 {
@@ -203,6 +222,8 @@ def attendance_update(name, date_str, time_str, returning, reason, collected):
             </h1>
             <p class="adminpilot">
                 Sent with AdminPilot
+                <br><br>
+                https://github.com/NathanWarrick/AdminPilot
             </p>
 
             <style>
@@ -255,6 +276,8 @@ def student_ID(name):
     
         <p class="adminpilot">
         Sent with AdminPilot
+        <br><br>
+        https://github.com/NathanWarrick/AdminPilot
         </p>
         
         <style>
@@ -288,18 +311,14 @@ def student_ID(name):
     # mailItem.Display() #email is displayed prior to sending
     mailItem.Send() #email is sent
 
-
 # Accounts Receivable
 def Centerpay(student_code, receipt_date, payment_total, fee_total):
     print("Centerpay Code Here")
     # Centerpay is going to be a bit of a challenge to do well. 
     # Leave Centerpay for last
-    
+
 def BPAY():
-    cases_check()
-    click(r'workspace/assets/financial/Families/Families.png')
-    click(r'workspace/assets/financial/Families/Process BPAY Receipts.png')
-    click(r'workspace/assets/financial/Families/BPAY Receipts.png')
+    cases_find('DF31062', 1)
     pyautogui.press("Enter")
     sleep(4)
     pyautogui.press("Enter")
@@ -317,14 +336,10 @@ def BPAY():
     print_bank_deposit()
     sleep(4)
     print_audit_trail()
- 
+
 def QKR_Canteen(total, receipt_date):
     print("Processing QKR Canteen")
-    cases_check()
-    click(r'workspace/assets/financial/general ledger/general ledger.png')
-    click(r'workspace/assets/financial/general ledger/Process Receipts.png')
-    click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
-    pyautogui.press("Enter")
+    cases_find('GL31061', 1)
     sleep(4)
     pyautogui.press("Enter")
     pyautogui.moveTo(10,10)
@@ -349,21 +364,19 @@ def QKR_Canteen(total, receipt_date):
     print_bank_deposit_fake()
     sleep(3)
     print_audit_trail()
-      
+
 def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     print("Processing Canteen Payments")
-    cases_check()
     
     if receipt_date != "":
         receipt_date = date.today().strftime("%d/%m/%Y")
-        
+    cashdone = 0
+    eft1done = 0
+    eft2done = 0
     
     # Canteen Cash
     if cash_total != "":
-        click(r'workspace/assets/financial/general ledger/general ledger.png')
-        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
-        pyautogui.press("Enter")
+        cases_find('GL31061', 1)
         sleep(4)
         pyautogui.press("Enter")
         pyautogui.moveTo(10,10)
@@ -390,15 +403,16 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
+        cashdone = 1
         
         sleep(5)
     
     # Canteen Eft 1
     if eft1_total != "":
-        click(r'workspace/assets/financial/general ledger/general ledger.png')
-        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
-        pyautogui.press("Enter")
+        if cashdone != 1: 
+            cases_find('GL31061', 1)
+        else:
+            pyautogui.press("Enter")
         sleep(4)
         pyautogui.press("Enter")
         pyautogui.moveTo(10,10)
@@ -425,15 +439,19 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
+        eft1done = 1
         
         sleep(5)
     
     # Canteen Eft 2
     if eft2_total != "":
-        click(r'workspace/assets/financial/general ledger/general ledger.png')
-        click(r'workspace/assets/financial/general ledger/Process Receipts.png')
-        click(r'workspace/assets/financial/general ledger/general ledger Receipt.png')
-        pyautogui.press("Enter")
+        if cashdone != 1:
+            if eft1done != 1:
+                cases_find('GL31061', 1)
+            else:
+                pyautogui.press("Enter")
+        else:
+            pyautogui.press("Enter")
         sleep(4)
         pyautogui.press("Enter")
         pyautogui.moveTo(10,10)
@@ -460,16 +478,13 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         print_online_print()
         print_bank_deposit()
         print_audit_trail()
+        eftdone = 1
         
     guis.Canteen_Overview(cash_total, cash_gl, eft1_total, eft1_gl, eft2_total, eft2_gl, receipt_date).mainloop()
-       
+
 def CSEF():
     print("CSEF Code goes here")
-    cases_check()
-    click(r'workspace/assets/financial/Families/Families.png')
-    click(r'workspace/assets/financial/Families/Process CSEF Receipts.png')
-    click(r'workspace/assets/financial/Families/CSEF Receipts.png')
-    pyautogui.press("Enter")
+    cases_find('DF21310', 1)
     sleep(3)
     pyautogui.press("Enter")
     pyautogui.moveTo(10,10)
@@ -483,11 +498,101 @@ def CSEF():
     print_bank_deposit()
     sleep(4)
     print_audit_trail()
+    
+def Vehigle_GL():
+    filename = customtkinter.filedialog.askopenfilename(title="Dialog box")
+    print(filename)
+    df = pd.read_excel(filename)
+
+    # Clean up the data
+    df = df.drop(labels=range(0,3), axis=0)
+    df = df.rename(columns={'Allocation of Motor Vehicle Costs': 'Date', 'Unnamed: 1': 'Department', 'Unnamed: 2': 'KMs', 'Unnamed: 3': 'Cost', 'Unnamed: 4': 'Total', 'Unnamed: 5': 'Sub Prog', 'Unnamed: 6': 'Driver'})
+    df = df.dropna(how='any')
+    print(df)
+
+    # Initialise
+    size = df.shape[0] + 3
+    i = 3
+    total = 0
+    vehicle = None
+
+    months = {'01': 'JAN','02': 'FEB','03': 'MAR','04': 'APR','05': 'MAY','06': 'JUN','07': 'JUL','08': 'AUG','09': 'SEP','10': 'OCT','11': 'NOV','12': 'DEC'}
+    lowmonth = '12'
+    highmonth = '0'
+
+
+    # Determine mode of transport
+    if str(df.loc[3]['Cost']) == '0.66':
+        vehicle = 'Bus'
+        print("Bus")
+    elif str(df.loc[3]['Cost']) == '0.25':
+        vehicle = 'Car'
+        print("Car")
+    else:
+        print("Error: Cost not associated with Vehicle")
+        exit()
+
+    #return
+    cases_find('GL31081S', 1)
+    sleep(3)
+    pyautogui.press("Enter")
+    sleep(3)
+    pyautogui.press("TAB")
+
+    # Loop to run for all entries
+    while i < size:
+        date = str(df.loc[i]['Date'])
+        monthword = date[5:7]
+        month = date[5:7]
+        day = date[8:10]
         
+        
+        pyautogui.typewrite(str(df.loc[i]['Sub Prog']))
+        pyautogui.press("TAB")
+        if vehicle == 'Bus':
+            pyautogui.typewrite('89302')
+        else:
+            pyautogui.typewrite('86701')
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        #pyautogui.typewrite(vehicle + ' Usage ' + months.get(monthword) + ' ' + str(df.loc[i]['Driver']))
+        pyautogui.typewrite(vehicle + ' Usage ' + day + '-' + month + ' ' + str(df.loc[i]['Driver']))
+        pyautogui.press("TAB")
+        pyautogui.typewrite(str(df.loc[i]['Total']))
+        pyautogui.press("TAB")
+        pyautogui.press("TAB")
+        
+        if month > highmonth:
+            highmonth = month
+        if month < lowmonth:
+            lowmonth = month
+        total = total + df.loc[i]['Total']
+        i = i + 1
+        
+    total = str(total)
+    year = date[2:4]
+    if vehicle == 'Bus':
+        pyautogui.typewrite('9360')
+    else:
+        pyautogui.typewrite('9361')
+    pyautogui.press("TAB")
+    pyautogui.typewrite('86701')
+    pyautogui.press("TAB")
+    pyautogui.press("TAB")
+    if vehicle == 'Bus':
+        pyautogui.typewrite('Bus Usage ' + months.get(lowmonth) + '-' + months.get(highmonth) + ' ' + year) 
+    else:
+        pyautogui.typewrite('Car Usage ' + months.get(lowmonth) + '-' + months.get(highmonth) + ' ' + year)   
+    pyautogui.press("TAB")
+    pyautogui.press("TAB")
+    pyautogui.typewrite(total[0:6])
+    pyautogui.press("TAB")
+    
+    print_bank_deposit()
+    print_audit_trail()
+    
 # Accounts Payable
 
 # Student Records
 
 # Business Manager
-
-# Canteen_Overview().mainloop()

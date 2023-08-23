@@ -6,18 +6,18 @@ from selenium.webdriver.common.by import By
 
 import os
 import pyautogui
-import shutil
 import pandas as pd
 from xls2xlsx import XLS2XLSX
 import time
 import cv2
 
-from workspace.bots.qkr_bot import secret
+from workspace.bots import secret
 
 
 # --------------------------SETUP-------------------------- #
 dir_path = os.path.dirname(os.path.realpath(__file__))
 downloads = dir_path + r"\downloads" # Create downloads path for files to be downloaded using selenium
+driverlocation = r'workspace\assets\drivers\chromedriver.exe'
 
 
 view_button_array = []
@@ -99,24 +99,25 @@ class Browser_Headless: # Selenium Browser Configuration
         self.browser.set_window_size(S('Width'),S('Height')) # May need manual adjustment
         self.browser.find_element(by=By.TAG_NAME, value='body').screenshot('web_screenshot.png')
         im = cv2.imread('web_screenshot.png')
-        h, w, _ = im.shape       
+        h, w, _ = im.shape
+        os.remove('web_screenshot.png')       
         return h
 
 
 def main():   
     
-    browser = Browser_Headless('workspace/bots/qkr_bot/drivers/chromedriver')
+    browser = Browser_Headless(driverlocation)
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/index.html')
     time.sleep(2)
-    browser.login_qkr(secret.username, secret.password)
+    browser.login_qkr(secret.qkr_username, secret.qkr_password)
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/app/storeFront#/forms')
     time.sleep(2)
-    print('Page height is: ' + browser.page_height())    
+    print('Page height is: ' + str(browser.page_height()))    
        
-    browser = Browser('workspace/bots/qkr_bot/drivers/chromedriver')
+    browser = Browser(driverlocation)
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/index.html')
     time.sleep(2)
-    browser.login_qkr(secret.username, secret.password)
+    browser.login_qkr(secret.qkr_username, secret.qkr_password)
     browser.open_page('https://qkr-mss.qkrschool.com/qkr_mss/app/storeFront#/forms')
     time.sleep(2)
     pyautogui.scroll(-330)
@@ -239,5 +240,5 @@ def main():
             qkr_df.to_excel("Excursions" + excursionname + '.xlsx', index=False)  
 
         os.remove(xlsxfile) 
+        return('done')
         
-main()

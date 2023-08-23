@@ -7,3 +7,4 @@ selenium
 pytest-shutil
 pandas
 xls2xlsx
+cv2
