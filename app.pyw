@@ -450,7 +450,7 @@ class wwcc_check(customtkinter.CTkToplevel):
         self.title("Working with Children Check Search")
         
         
-        self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(2, weight=1)
         self.grid_columnconfigure(1, weight=1)
         
         self.wwcc_check_frame = customtkinter.CTkFrame(self, corner_radius=0, width=400, height=300)
@@ -475,7 +475,7 @@ class wwcc_check(customtkinter.CTkToplevel):
         self.wwcc_check_num.grid(row=1, column=1, padx=10, pady=8)
         
         # Buttons (Seperate frame)
-        self.cancel = customtkinter.CTkButton(self.buttons_frame, command=self.cancel, text="Close", fg_color="Red", hover_color="Dark Red")
+        self.cancel = customtkinter.CTkButton(self.buttons_frame, command=self.Cancel_button_event, text="Close", fg_color="Red", hover_color="Dark Red")
         self.cancel.grid(row=0, column=0, padx=20, pady=20, sticky="ew")        
         self.submit = customtkinter.CTkButton(self.buttons_frame, command=self.Submit_button_event, text="Finish", fg_color="Green", hover_color="Dark Green")
         self.submit.grid(row=0, column=3, padx=20, pady=20, sticky="ew")
