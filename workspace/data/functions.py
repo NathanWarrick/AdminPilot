@@ -321,8 +321,8 @@ def student_ID(name):
         </style>
         ''')
     
-    mailItem.Display() #email is displayed prior to sending
-    #mailItem.Send() #email is sent
+    #mailItem.Display() #email is displayed prior to sending
+    mailItem.Send() #email is sent
 
 # Accounts Receivable
 def Centerpay(student_code, receipt_date, payment_total, fee_total):
