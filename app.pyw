@@ -34,6 +34,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.absence_window = None
         self.student_ID_window = None
         self.papercut_deposit_window = None
+        self.wwcc_window = None
         
         # Acc Receivable windows
         self.centerpay_window = None
@@ -111,7 +112,7 @@ class GUI(customtkinter.CTk): # Main GUI Config
         self.General_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
         self.General_frame_button_3 = customtkinter.CTkButton(self.General_frame, text="Papercut Deposit", compound="top", command=self.Papercut_Deposit_Button_Event)
         self.General_frame_button_3.grid(row=3, column=0, padx=20, pady=10)
-        self.General_frame_button_4 = customtkinter.CTkButton(self.General_frame, text="Placeholder", compound="bottom", fg_color='dark red', hover_color='dark red')
+        self.General_frame_button_4 = customtkinter.CTkButton(self.General_frame, text="WWCC Check", compound="top", command=self.WWCC_Check_Button_Event)
         self.General_frame_button_4.grid(row=4, column=0, padx=20, pady=10)
 
         # Create Acc Rec frame
@@ -223,6 +224,13 @@ class GUI(customtkinter.CTk): # Main GUI Config
             return()
         else:
             self.papercut_deposit_window.focus()
+            
+    def WWCC_Check_Button_Event(self):
+        if self.wwcc_window is None or not self.wwcc_window.winfo_exists():
+            self.wwcc_window = wwcc_check()
+            return()
+        else:
+            self.wwcc_window.focus()
             
     #Accounts Receivable
     def Centerpay_Button_Event(self):
@@ -432,6 +440,55 @@ class Papercut_Deposit(customtkinter.CTkToplevel):
     def Submit_button_event(self):
         print("Submit Student ID Request")
         papercut_bot.deposit(self.papercut_deposit_name.get(), self.papercut_deposit_amount.get(), self.papercut_deposit_method.get(), self.papercut_deposit_comment.get())
+        self.destroy()
+        
+class wwcc_check(customtkinter.CTkToplevel):
+    def __init__(self):
+        super().__init__()
+        self.geometry("390x180")
+        self.lift()
+        self.title("Working with Children Check Search")
+        
+        
+        self.grid_rowconfigure(2, weight=1)
+        self.grid_columnconfigure(1, weight=1)
+        
+        self.wwcc_check_frame = customtkinter.CTkFrame(self, corner_radius=0, width=400, height=300)
+        self.wwcc_check_frame.grid(row=0, column=0, sticky="nsew")
+        self.wwcc_check_frame.grid_rowconfigure(1, weight=1) # Change number of rows in the naviation frame
+        
+        self.buttons_frame = customtkinter.CTkFrame(self, corner_radius=0, width=400, height=100)
+        self.buttons_frame.grid(row=1, column=0, sticky="nsew")
+        self.buttons_frame.grid_rowconfigure(1, weight=1) # Change number of rows in the naviation frame
+        self.buttons_frame.grid_columnconfigure(3, weight=1)
+        
+        # Name Field
+        self.wwcc_check_frame_label = customtkinter.CTkLabel(self.wwcc_check_frame, text="Name *", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
+        self.wwcc_check_frame_label.grid(row=0, column=0, padx=10, pady=8)
+        self.wwcc_check_name = customtkinter.CTkEntry(self.wwcc_check_frame, placeholder_text="Name", width=280, height=40, border_width=1, corner_radius=10)
+        self.wwcc_check_name.grid(row=0, column=1, padx=10, pady=8)
+        
+        # Name Field
+        self.wwcc_check_frame_label = customtkinter.CTkLabel(self.wwcc_check_frame, text="Number *", compound="left", font=customtkinter.CTkFont(size=15, weight="bold"))
+        self.wwcc_check_frame_label.grid(row=1, column=0, padx=10, pady=8)
+        self.wwcc_check_num = customtkinter.CTkEntry(self.wwcc_check_frame, placeholder_text="00000000", width=280, height=40, border_width=1, corner_radius=10)
+        self.wwcc_check_num.grid(row=1, column=1, padx=10, pady=8)
+        
+        # Buttons (Seperate frame)
+        self.cancel = customtkinter.CTkButton(self.buttons_frame, command=self.Cancel_button_event, text="Close", fg_color="Red", hover_color="Dark Red")
+        self.cancel.grid(row=0, column=0, padx=20, pady=20, sticky="ew")        
+        self.submit = customtkinter.CTkButton(self.buttons_frame, command=self.Submit_button_event, text="Finish", fg_color="Green", hover_color="Dark Green")
+        self.submit.grid(row=0, column=3, padx=20, pady=20, sticky="ew")
+        
+        
+        # Cancel and submit buttons
+    def Cancel_button_event(self):
+        print("Cancel WWCC Search Request")
+        self.destroy()
+        
+    def Submit_button_event(self):
+        print("Submit WWCC Search Request")
+        print(functions.wwcc_check(self.wwcc_check_num.get(), self.wwcc_check_name.get()))
         self.destroy()
 
 class Centerpay(customtkinter.CTkToplevel):
