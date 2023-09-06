@@ -1,1 +1,2 @@
-version = '2.0.1'
+# Currently implementation of versioning. To change this later
+version = '2.3.0'
