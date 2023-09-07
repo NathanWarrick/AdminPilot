@@ -380,11 +380,13 @@ def wwcc_check(WWCC_Number, WWCC_Name):
     result = jsonResponse["statusCheckMessage"]
     date = jsonResponse["datetimeChecked"]
 
+    print(result)
+
     if "current" in result:
-        print("WWCC is good!")
+        # print("WWCC is good!")
         return "OK"
     else:
-        print("Oh No! Get them out of here!")
+        # print("Oh No! Get them out of here!")
         return "BAD"
 
 

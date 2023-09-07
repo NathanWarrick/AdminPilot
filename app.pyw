@@ -803,7 +803,7 @@ class Papercut_Deposit(customtkinter.CTkToplevel):
 class wwcc_check(customtkinter.CTkToplevel):
     def __init__(self):
         super().__init__()
-        self.geometry("390x180")
+        self.geometry("390x230")
         self.lift()
         self.title("Working with Children Check Search")
 
@@ -826,6 +826,15 @@ class wwcc_check(customtkinter.CTkToplevel):
             1, weight=1
         )  # Change number of rows in the naviation frame
         self.buttons_frame.grid_columnconfigure(3, weight=1)
+
+        self.result_frame = customtkinter.CTkFrame(
+            self, corner_radius=0, width=400, height=100
+        )
+        self.result_frame.grid(row=2, column=0, sticky="nsew")
+        self.result_frame.grid_rowconfigure(
+            2, weight=1
+        )  # Change number of rows in the naviation frame
+        self.result_frame.grid_columnconfigure(3, weight=1)
 
         # Name Field
         self.wwcc_check_frame_label = customtkinter.CTkLabel(
@@ -872,6 +881,7 @@ class wwcc_check(customtkinter.CTkToplevel):
             hover_color="Dark Red",
         )
         self.cancel.grid(row=0, column=0, padx=20, pady=20, sticky="ew")
+
         self.submit = customtkinter.CTkButton(
             self.buttons_frame,
             command=self.Submit_button_event,
@@ -883,16 +893,44 @@ class wwcc_check(customtkinter.CTkToplevel):
 
         # Cancel and submit buttons
 
+        self.result_button = customtkinter.CTkButton(
+            self.result_frame,
+            text=" ",
+            fg_color="Grey",
+            hover_color="Grey",
+        )
+        self.result_button.grid(row=0, rowspan=2, column=3, padx=20, sticky="ew")
+
     def Cancel_button_event(self):
         print("Cancel WWCC Search Request")
         self.destroy()
 
-    def Submit_button_event(self):
+    def Submit_button_event(
+        self,
+    ):
         print("Submit WWCC Search Request")
-        print(
-            functions.wwcc_check(self.wwcc_check_num.get(), self.wwcc_check_name.get())
-        )
-        self.destroy()
+
+        try:  # Try to
+            response = functions.wwcc_check(
+                self.wwcc_check_num.get(), self.wwcc_check_name.get()
+            )
+            if response == "OK":
+                print("Response is OK")
+                self.result_button.configure(
+                    fg_color=("Green"), hover_color="Green", text=("WWCC Approved")
+                )
+
+            else:
+                if response == "BAD":
+                    print("Response is BAD")
+                    self.result_button.configure(
+                        fg_color=("Red"), hover_color="Red", text=("WWCC Rejected")
+                    )
+        except KeyError:
+            print("Error")
+            self.result_button.configure(
+                fg_color=("Red"), hover_color="Red", text=("Error")
+            )
 
 
 class Centerpay(customtkinter.CTkToplevel):
