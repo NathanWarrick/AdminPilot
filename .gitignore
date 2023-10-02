@@ -3,3 +3,4 @@ secret.py
 test*
 *.xls
 *.xlsx
+workspace/assets/temp
