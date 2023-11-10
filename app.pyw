@@ -4,6 +4,7 @@ import time
 
 import customtkinter
 import keyboard
+from PIL import Image, ImageTk
 
 from workspace.bots.papercut_bot import papercut_bot
 from workspace.bots.qkr_bot import qkr_bot
@@ -27,11 +28,21 @@ class GUI(customtkinter.CTk):  # Main GUI Config
 
         self.title("AdminPilot")
         self.geometry("450x450")
-        self.geometry("+1400+50")
+        self.geometry("+1300+50")
         self.lift()
+
+        self.iconpath = ImageTk.PhotoImage(file=r"workspace\assets\gui\logo.png")
+        self.wm_iconbitmap()
+        self.iconphoto(True, self.iconpath)
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=1)
+
+        # Load Images
+        self.logo_image = customtkinter.CTkImage(
+            Image.open(r"workspace\assets\gui\logo.png"),
+            size=(50, 50),
+        )
 
         # General Windows
         self.absence_window = None
@@ -62,8 +73,9 @@ class GUI(customtkinter.CTk):  # Main GUI Config
             text=" AdminPilot v" + __version__,
             compound="left",
             font=customtkinter.CTkFont(size=15, weight="bold"),
+            image=self.logo_image,
         )
-        self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=20)
+        self.navigation_frame_label.grid(row=0, column=0, padx=20, pady=5)
 
         # General Button Navigation Frame
         self.General_button = customtkinter.CTkButton(
