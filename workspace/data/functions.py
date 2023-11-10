@@ -26,7 +26,7 @@ def click(path):
 def cases_check():
     try:
         functionsadv.focus("CASES21")
-        sleep(0.5)
+        sleep(1)
     except:
         print("Can't find the application")
 
@@ -457,7 +457,7 @@ def QKR_Canteen(total, receipt_date):
 def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
     print("Processing Canteen Payments")
 
-    if receipt_date != "":
+    if receipt_date == "":
         receipt_date = date.today().strftime("%d/%m/%Y")
     cashdone = 0
     eft1done = 0
