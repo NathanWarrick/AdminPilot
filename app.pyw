@@ -294,24 +294,24 @@ class GUI(customtkinter.CTk):  # Main GUI Config
             fg_color=("gray75", "gray25") if name == "General" else "transparent"
         )
         self.Accounts_Receivable_button.configure(
-            fg_color=("gray75", "gray25")
-            if name == "Accounts_Receivable"
-            else "transparent"
+            fg_color=(
+                ("gray75", "gray25") if name == "Accounts_Receivable" else "transparent"
+            )
         )
         self.Accounts_Payable_button.configure(
-            fg_color=("gray75", "gray25")
-            if name == "Accounts_Payable"
-            else "transparent"
+            fg_color=(
+                ("gray75", "gray25") if name == "Accounts_Payable" else "transparent"
+            )
         )
         self.Student_Records_button.configure(
-            fg_color=("gray75", "gray25")
-            if name == "Student_Records"
-            else "transparent"
+            fg_color=(
+                ("gray75", "gray25") if name == "Student_Records" else "transparent"
+            )
         )
         self.Business_Manager_button.configure(
-            fg_color=("gray75", "gray25")
-            if name == "Business_Manager"
-            else "transparent"
+            fg_color=(
+                ("gray75", "gray25") if name == "Business_Manager" else "transparent"
+            )
         )
 
         # show selected frame
