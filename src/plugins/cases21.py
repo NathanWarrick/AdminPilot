@@ -16,6 +16,8 @@ __version__ = version.version
 
 keyboard = Controller()
 
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract"
+
 
 def cases_check():
     try:
@@ -52,8 +54,12 @@ def print_bank_deposit():
     fnc.clickon(r"src/assets/cases21/general/Bank Deposit Slip.png")
     sleep(10)
 
-    if fnc.imagesearch(r"src/assets/general/Print Job Notification.png") != [-1, -1]:
+    x, y = fnc.imagesearch(r"src/assets/general/Print Job Notification.png")
+    if x != -1:
         print("Found")
+        fnc.click_left(x, y)
+        sleep(1)
+
         while fnc.imagesearch(
             r"src/assets/general/Print Job Notification zAdmininstration.png"
         ) == [-1, -1]:
@@ -74,8 +80,11 @@ def print_bank_deposit_fake():
     sleep(0.2)
     fnc.clickon(r"src/assets/cases21/general/Bank Deposit Slip.png")
     sleep(10)
-    if fnc.imagesearch(r"src/assets/general/Print Job Notification.png") != [-1, -1]:
+    x, y = fnc.imagesearch(r"src/assets/general/Print Job Notification.png")
+    if x != -1:
         print("Found")
+        fnc.click_left(x, y)
+        sleep(1)
         keyboard.press(Key.alt.value)
         keyboard.type(Key.f4.value)
         keyboard.release(Key.alt.value)
@@ -110,7 +119,7 @@ def print_audit_trail():
     keyboard.type(batch + " by AdminPilot v" + __version__)
     keyboard.press(Key.enter.value)
     sleep(3)
-    fnc.clickon(r"workspace/assets/general/Batch Print Yes.png")
+    fnc.clickon(r"src/assets/cases21/general/Batch Print Yes.png")
     sleep(2)
     keyboard.press(Key.alt.value)
     keyboard.type(Key.f4.value)
@@ -246,30 +255,45 @@ def QKR_Canteen(total, receipt_date):
     cases_find("GL31061", 1)
     sleep(4)
     keyboard.press(Key.enter.value)
-    # pyautogui.moveTo(10, 10) # Do i need this?
-    sleep(4)
+    sleep(6)
     keyboard.press(Key.tab.value)
     fnc.kbd_type("CANTEEN")
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     fnc.kbd_type(total)
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     fnc.kbd_type("QKR Canteen " + receipt_date)
+    sleep(0.1)
     keyboard.press(Key.tab.value)
+    sleep(0.1)
     fnc.kbd_type("EF")
+    sleep(0.1)
     keyboard.press(Key.tab.value)
-    fnc.clickon(r"workspace/assets/general/Save.png")
+    sleep(0.1)
+    fnc.clickon(r"src/assets/cases21/general/Save.png")
     print_bank_deposit_fake()
     sleep(3)
     print_audit_trail()
 
 
-def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
+def Canteen(
+    cash_total, eft1_total, eft2_total, receipt_date
+):  # Issues negotiating papercut print window
     print("Processing Canteen Payments")
 
     if receipt_date == "":
@@ -283,31 +307,46 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         cases_find("GL31061", 1)
         sleep(4)
         keyboard.press(Key.enter.value)
-        # pyautogui.moveTo(10, 10)
-        sleep(3)
+        sleep(6)
         keyboard.press(Key.tab.value)
+        sleep(1)
         fnc.kbd_type("CANTEEN")
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         fnc.kbd_type(cash_total)
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         fnc.kbd_type("Canteen " + receipt_date + " CSH ")
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         fnc.kbd_type("CA")
+        sleep(1)
         keyboard.press(Key.tab.value)
+        sleep(1)
         cash_gl = reference_report()
-        fnc.clickon(r"workspace/assets/general/Save.png")
-        print_online_print()
+        fnc.clickon(r"src/assets/cases21/general/Save.png")
+        # print_online_print()
         print_bank_deposit()
-        cash_batch = print_audit_trail()
+        # cash_batch = print_audit_trail()
         cashdone = 1
 
         sleep(5)
+        return
 
     # Canteen Eft 1
     if eft1_total != "":
@@ -317,25 +356,39 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
             keyboard.press(Key.enter.value)
         sleep(4)
         keyboard.press(Key.enter.value)
-        # pyautogui.moveTo(10, 10)
-        sleep(3)
+        sleep(6)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         fnc.kbd_type("CANTEEN")
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         fnc.kbd_type(eft1_total)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         fnc.kbd_type("Canteen " + receipt_date + " EFT 1")
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         fnc.kbd_type("EF")
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         eft1_gl = reference_report()
-        fnc.clickon(r"workspace/assets/general/Save.png")
+        fnc.clickon(r"src/assets/cases21/general/Save.png")
         print_online_print()
         print_bank_deposit()
         eft1_batch = print_audit_trail()
@@ -357,22 +410,37 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
         # pyautogui.moveTo(10, 10)
         sleep(3)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         fnc.kbd_type("CANTEEN")
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         fnc.kbd_type(eft2_total)
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         fnc.kbd_type("Canteen " + receipt_date + " EFT2 ")
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         fnc.kbd_type("EF")
+        sleep(0.1)
         keyboard.press(Key.tab.value)
+        sleep(0.1)
         eft2_gl = reference_report()
-        fnc.clickon(r"workspace/assets/general/Save.png")
+        fnc.clickon(r"src/assets/cases21/general/Save.png")
         print_online_print()
         print_bank_deposit()
         eft2_batch = print_audit_trail()
@@ -380,7 +448,7 @@ def Canteen(cash_total, eft1_total, eft2_total, receipt_date):
 
     return (
         cash_total,
-        cash_batch,
+        # cash_batch,
         cash_total,
         eft1_total,
         eft1_batch,

@@ -20,7 +20,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 downloads = (
     dir_path + r"\downloads"
 )  # Create downloads path for files to be downloaded using selenium
-driverlocation = r"workspace\assets\drivers\chromedriver.exe"
+driverlocation = r"src\assets\drivers\chromedriver.exe"
 
 
 view_button_array = []

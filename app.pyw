@@ -6,11 +6,13 @@ import customtkinter
 from pynput import keyboard
 from PIL import Image, ImageTk
 
-# from workspace.bots.papercut_bot import papercut_bot
-# from workspace.bots.qkr_bot import qkr_bot
-# from workspace.data import (
-#     functions as functions,
-# )  # Import Functions.py file as functions
+
+import src.plugins.outlook as otl
+import src.plugins.web as web
+import src.plugins.cases21 as css
+
+# import src.plugins.qkr as qkr
+
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme(
@@ -588,15 +590,15 @@ class Absence(customtkinter.CTkToplevel):
 
     def Submit_button_event(self):
         print("Submit Attendance")
-        # functions.attendance_update(
-        #     self.Absence_Name.get(),
-        #     self.Absence_Date.get(),
-        #     self.Absence_Time.get(),
-        #     self.Absence_Returning.get(),
-        #     self.Absence_Reason.get(),
-        #     self.Absence_Collector.get(),
-        # )
-        # self.destroy()
+        otl.attendance_update(
+            self.Absence_Name.get(),
+            self.Absence_Date.get(),
+            self.Absence_Time.get(),
+            self.Absence_Returning.get(),
+            self.Absence_Reason.get(),
+            self.Absence_Collector.get(),
+        )
+        self.destroy()
 
 
 class Student_ID(customtkinter.CTkToplevel):
@@ -670,8 +672,8 @@ class Student_ID(customtkinter.CTkToplevel):
 
     def Submit_button_event(self):
         print("Submit Student ID Request")
-        # functions.student_ID(self.Student_ID_Name.get())
-        # self.destroy()
+        otl.student_ID(self.Student_ID_Name.get())
+        self.destroy()
 
 
 class Papercut_Deposit(customtkinter.CTkToplevel):
@@ -922,27 +924,27 @@ class wwcc_check(customtkinter.CTkToplevel):
     ):
         print("Submit WWCC Search Request")
 
-        # try:  # Try to
-        #     response = functions.wwcc_check(
-        #         self.wwcc_check_num.get(), self.wwcc_check_name.get()
-        #     )
-        #     if response == "OK":
-        #         print("Response is OK")
-        #         self.result_button.configure(
-        #             fg_color=("Green"), hover_color="Green", text=("WWCC Approved")
-        #         )
+        try:  # Try to
+            response = web.wwcc_check(
+                self.wwcc_check_num.get(), self.wwcc_check_name.get()
+            )
+            if response == "OK":
+                print("Response is OK")
+                self.result_button.configure(
+                    fg_color=("Green"), hover_color="Green", text=("WWCC Approved")
+                )
 
-        #     else:
-        #         if response == "BAD":
-        #             print("Response is BAD")
-        #             self.result_button.configure(
-        #                 fg_color=("Red"), hover_color="Red", text=("WWCC Rejected")
-        #             )
-        # except KeyError:
-        #     print("Error")
-        #     self.result_button.configure(
-        #         fg_color=("Red"), hover_color="Red", text=("Error")
-        #     )
+            else:
+                if response == "BAD":
+                    print("Response is BAD")
+                    self.result_button.configure(
+                        fg_color=("Red"), hover_color="Red", text=("WWCC Rejected")
+                    )
+        except KeyError:
+            print("Error")
+            self.result_button.configure(
+                fg_color=("Red"), hover_color="Red", text=("Error")
+            )
 
 
 class Centerpay(customtkinter.CTkToplevel):
@@ -1070,19 +1072,19 @@ class Centerpay(customtkinter.CTkToplevel):
 
     def Submit_button_event(self):
         print("Submit Centerpay")
-        # functions.Centerpay(
-        #     self.Centerpay_Student_Code.get(),
-        #     self.Centerpay_Date.get(),
-        #     self.Centerpay_Payment_Total.get(),
-        #     self.Centerpay_Fee_Total.get(),
-        # )
-        # self.destroy()
+        css.Centerpay(
+            self.Centerpay_Student_Code.get(),
+            self.Centerpay_Date.get(),
+            self.Centerpay_Payment_Total.get(),
+            self.Centerpay_Fee_Total.get(),
+        )
+        self.destroy()
 
 
 class BPAY:
     def __init__(self):
         super().__init__()
-        # functions.BPAY()
+        css.BPAY()
 
 
 class Canteen(customtkinter.CTkToplevel):
@@ -1210,13 +1212,13 @@ class Canteen(customtkinter.CTkToplevel):
 
     def Submit_button_event(self):
         print("Submit Canteen")
-        # functions.Canteen(
-        #     self.Canteen_Cash_Total.get(),
-        #     self.Canteen_EFT1_Total.get(),
-        #     self.Canteen_EFT2_Total.get(),
-        #     self.Canteen_Receipt_Date.get(),
-        # )
-        # self.destroy()
+        css.Canteen(
+            self.Canteen_Cash_Total.get(),
+            self.Canteen_EFT1_Total.get(),
+            self.Canteen_EFT2_Total.get(),
+            self.Canteen_Receipt_Date.get(),
+        )
+        self.destroy()
 
 
 class QKR_Canteen(customtkinter.CTkToplevel):
@@ -1308,26 +1310,26 @@ class QKR_Canteen(customtkinter.CTkToplevel):
 
     def Submit_button_event(self):
         print("Submit Canteen")
-        # functions.QKR_Canteen(self.QKR_Canteen_Total.get(), self.Receipt_Date.get())
-        # self.destroy()
+        css.QKR_Canteen(self.QKR_Canteen_Total.get(), self.Receipt_Date.get())
+        self.destroy()
 
 
 class CSEF:
     def __init__(self):
         super().__init__()
-        # functions.CSEF()
+        css.CSEF()
 
 
 class QKR_Update:
     def __init__(self):
         super().__init__()
-        # qkr_bot.main()
+        # qkr.main()
 
 
 class Vehicle_Expense:
     def __init__(self):
         super().__init__()
-        # functions.Vehigle_GL()
+        css.Vehigle_GL()
 
 
 if __name__ == "__main__":
