@@ -3,6 +3,7 @@ import numpy as np
 import win32gui
 import re
 import random
+from time import sleep
 
 """
 Functions define common functions used by plugins
@@ -98,48 +99,40 @@ def moveto(image: str, confidence=0.9, wait=0.1):
             raise RuntimeError("Unable to find image in the 30 second window")
         coordds = imagesearch(image, confidence=confidence)
         i += 1
-        time.sleep(1)
+        sleep(1)
         if coordds != [-1, -1]:
             found = True
             win32api.SetCursorPos((int(coordds[0]), int(coordds[1])))
 
 
 def clickon(image: str, confidence=0.9, clicktype="left", wait=0.1):
-    found = False
-    i = 0
-    while found == False:
-        if i > 1:
-            xrandom = random.randint(int(xmin), int(xmax))
-            yrandom = random.randint(int(ymin), int(ymax))
-            win32api.SetCursorPos((int(xrandom), int(yrandom)))
-        coordds = imagesearch(image, confidence=confidence)
-        i += 1
-        time.sleep(1)
 
-        if i == 10:
-            raise RuntimeError("Unable to find image in the 10 second window")
-
-        if coordds != [-1, -1]:
-            found = True
-            if clicktype == "left":
-                click_left(int(coordds[0]), int(coordds[1]))
-            elif clicktype == "right":
-                click_right(int(coordds[0]), int(coordds[1]))
-            elif clicktype == "none":
-                continue
-            time.sleep(wait)
+    coordds = imagesearch(image, confidence=confidence)
+    if coordds != [-1, -1]:
+        if clicktype == "left":
+            click_left(int(coordds[0]), int(coordds[1]))
+        elif clicktype == "right":
+            click_right(int(coordds[0]), int(coordds[1]))
+        sleep(wait)
 
 
 def imagesearch(image: str, confidence=0.9):
+    # Capture Virtual Screen
     with mss.mss() as sct:
         im = sct.grab(sct.monitors[0])
-        img_rgb = np.array(im)
-        img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_BGR2GRAY)
+        img = np.array(im)
+
+        # Read Template Image
         template = cv2.imread(image, 0)
         if template is None:
             raise FileNotFoundError("Image file not found: {}".format(image))
         template.shape[::-1]
 
+        # Convert images to grayscale
+        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+
+        # Match screenshot
         res = cv2.matchTemplate(img_gray, template, cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
         if max_val < confidence:
@@ -159,10 +152,49 @@ def imagesearch(image: str, confidence=0.9):
             map(lambda i, j: i + j, max_loc, templatesize)
         )  # Add the best match to half the image size to find the middle
 
-    x = x + win32api.GetSystemMetrics(76)
-    y = y + win32api.GetSystemMetrics(77)
+        # Translate Virtual Screen Coordinates into real coordinates
+        x = x + win32api.GetSystemMetrics(76)
+        y = y + win32api.GetSystemMetrics(77)
 
     return x, y
+
+
+def click_check(click_path, check_path, click_confidence=0.9, check_confidence=0.9):
+
+    x, y = imagesearch(click_path, click_confidence)
+    click_left(x, y)
+
+    x, y = check(check_path, check_confidence)
+    return x, y
+
+
+def check(check_path, check_confidence=0.9, duration=0.5):
+    """Continuously check for image at check_path
+
+    :param check_path: String to image
+    :type check_path: str
+    :param check_confidence: Search confidence, defaults to 0.9
+    :type check_confidence: float, optional
+    :param time: Time to search in Minutes, defaults to 0.5
+    :type time: float, optional
+    :return: x and y coords of check_path
+    :rtype: tuple
+    """
+
+    t_end = time.time() + 60 * duration
+    i = 1
+    while time.time() < t_end:
+        found = False
+        if found == False:
+            x, y = imagesearch(check_path, check_confidence)
+            if x != -1:
+                found = True
+                return x, y
+            else:
+                print("Not Found. Attempt: " + str(i))
+                sleep(0.1)
+                i = i + 1
+    return [-1, -1]
 
 
 def imagecheck(image: str):
@@ -178,7 +210,7 @@ def imagecheck(image: str):
             load == False
             print("[INFO] " + image + " not found")
             i = i + 1
-            time.sleep(1)
+            sleep(1)
         else:
             load == True
             print("[INFO] " + image + " found")

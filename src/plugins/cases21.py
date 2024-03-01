@@ -11,6 +11,7 @@ import pytesseract
 import pandas as pd
 import customtkinter
 from datetime import date, datetime
+import ctypes
 
 __version__ = version.version
 
@@ -27,7 +28,7 @@ def cases_check():
         print("Can't find the application")
 
 
-def cases_find(name, tries):
+def cases_find(name, tries, check_path=None, check_confidence=0.9):
     cases_check()
     sleep(0.3)
     keyboard.press(Key.ctrl.value)
@@ -45,29 +46,34 @@ def cases_find(name, tries):
     keyboard.press(Key.esc.value)
     sleep(0.3)
     keyboard.press(Key.enter.value)
+    fnc.check(check_path)
 
 
 def print_bank_deposit():
     print("Print Bank Deposit")
-    fnc.clickon(r"src/assets/cases21/general/Print.png")
-    sleep(0.2)
-    fnc.clickon(r"src/assets/cases21/general/Bank Deposit Slip.png")
-    sleep(10)
+    x, y = fnc.click_check(
+        r"src/assets/cases21/general/Print.png",
+        r"src/assets/cases21/general/Bank Deposit Slip.png",
+    )
+    fnc.click_left(x, y)
 
-    x, y = fnc.imagesearch(r"src/assets/general/Print Job Notification.png")
+    x, y = fnc.check(r"src/assets/general/Print Job Notification.png")
     if x != -1:
-        print("Found")
-        fnc.click_left(x, y)
-        sleep(1)
+        try:
+            fnc.click_left(x, y)
+            sleep(1)
 
-        while fnc.imagesearch(
-            r"src/assets/general/Print Job Notification zAdmininstration.png"
-        ) == [-1, -1]:
-            print("Inorrect Account")
-            keyboard.type("z")
-        else:
-            print("Correct Account")
-            keyboard.press(Key.enter.value)
+            while fnc.imagesearch(
+                r"src/assets/general/Print Job Notification zAdmininstration.png"
+            ) == [-1, -1]:
+                print("Inorrect Account")
+                keyboard.type("z")
+            else:
+                print("Correct Account")
+                keyboard.press(Key.enter.value)
+        except:  # TODO: Find a better fix
+            print("Admin error for papercut!")
+            pass
 
     else:
         print("Can't find Papercut notification")
@@ -76,14 +82,17 @@ def print_bank_deposit():
 
 def print_bank_deposit_fake():
     print("Fake Bank Deposit")
-    fnc.clickon(r"src/assets/cases21/general/Print.png")
-    sleep(0.2)
+    fnc.click_check(
+        r"src/assets/cases21/general/Print.png",
+        r"src/assets/cases21/general/Bank Deposit Slip.png",
+    )
     fnc.clickon(r"src/assets/cases21/general/Bank Deposit Slip.png")
-    sleep(10)
-    x, y = fnc.imagesearch(r"src/assets/general/Print Job Notification.png")
+
+    x, y = fnc.check(r"src/assets/general/Print Job Notification.png")
     if x != -1:
         print("Found")
-        fnc.click_left(x, y)
+        # fnc.click_left(x, y)
+        ctypes.windll.user32.SetCursorPos(int(x), int(y))
         sleep(1)
         keyboard.press(Key.alt.value)
         keyboard.type(Key.f4.value)
@@ -95,6 +104,12 @@ def print_bank_deposit_fake():
 
 def print_online_print():
     print("Online Print")
+    fnc.click_check(
+        r"src/assets/cases21/general/Print.png",
+        r"src/assets/cases21/general/Online Print.png",
+    )
+    fnc.click(r"src/assets/cases21/general/Online Print.png")
+
     fnc.clickon(r"src/assets/cases21/general/Print.png")
     sleep(0.2)
     fnc.clickon(r"src/assets/cases21/general/Online Print.png")
@@ -304,8 +319,7 @@ def Canteen(
 
     # Canteen Cash
     if cash_total != "":
-        cases_find("GL31061", 1)
-        sleep(4)
+        cases_find("GL31061", 1, r"src/assets/cases21/general/New_Batch.png")
         keyboard.press(Key.enter.value)
         sleep(6)
         keyboard.press(Key.tab.value)
@@ -341,7 +355,7 @@ def Canteen(
         cash_gl = reference_report()
         fnc.clickon(r"src/assets/cases21/general/Save.png")
         # print_online_print()
-        print_bank_deposit()
+        # print_bank_deposit()
         # cash_batch = print_audit_trail()
         cashdone = 1
 
